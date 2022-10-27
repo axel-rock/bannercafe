@@ -1,5 +1,4 @@
-import {testUnits} from '/testlist.js'
-import Packer from '/libs/bin-packing-master/packer.growing.js'
+import Packer from '/js/libs/bin-packing-master/packer.growing.js'
 
 const mutationObserver = new MutationObserver(update),
   gallery = document.getElementById('gallery'),
@@ -52,13 +51,3 @@ function update() {
 
   document.getElementById('gallery').style.setProperty('--compact-height', packer.root.h)
 }
-
-// testUnits
-//   .sort((a, b) => 0.5 - Math.random())
-//   .slice(0, 3)
-//   .forEach((unit) => {
-//     const creative = document.createElement('creative-overview')
-//     creative.src = '/test/' + unit + '/index.html'
-//     creative.id = unit
-//     gallery.appendChild(creative)
-//   })

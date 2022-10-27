@@ -1,4 +1,3 @@
-import {testUnits} from '../testlist.js'
 import Creative from '/js/creative.js'
 
 const params = new Proxy(new URLSearchParams(window.location.search), {
