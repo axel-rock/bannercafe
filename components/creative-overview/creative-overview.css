@@ -1,0 +1,33 @@
+/* Compact */
+
+:has(#layout > [value="compact"]:checked) creative-overview {
+	position: absolute;
+	width: calc(var(--compact-width) * 1px);
+	height: calc(var(--compact-height) * 1px);
+	left: calc(var(--compact-left) * 1px);
+	top: calc(var(--compact-top) * 1px);
+}
+
+:has(#layout > [value="compact"]:checked) creative-overview > a:after {
+	content: '';
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0.5;
+}
+
+:has(#layout > [value="compact"]:checked) creative-overview > a > *:not(html-banner) {
+	display: none;
+}
+
+/* List */
+
+:has(#layout > [value="list"]:checked) creative-overview > a {
+	display: contents;
+}
+
+:has(#layout > [value="list"]:checked) creative-overview > html-banner {
+	display: none;
+}

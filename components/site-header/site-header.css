@@ -1,0 +1,49 @@
+header {
+	position: relative;
+	display: grid;
+	grid-template-areas: 'logo menu'
+		'search-bar search-bar';
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1em;
+	overflow: hidden;
+	padding: 1em 0;
+	color: var(--color-primary);
+}
+
+@media (min-width: 640px) {
+	header {
+		grid-template-columns: max-content 1fr max-content;
+		grid-template-areas: 'logo search-bar menu';
+		align-items: center;
+	}
+}
+
+@media (min-width: 1350px) {
+	header {
+		grid-template-columns: 1fr var(--content-max-width) 1fr;
+	}
+}
+
+header {
+	flex-grow: 2;
+}
+
+header > h1 {
+	grid-area: logo;
+}
+
+header > h1 img {
+	height: 1.5em;
+}
+
+header > div {
+	grid-area: menu;
+	display: flex;
+	gap: 1em;
+	justify-self: end;
+}
+
+header > search-bar {
+	grid-area: search-bar;
+}

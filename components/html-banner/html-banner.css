@@ -1,0 +1,9 @@
+:host {
+	display: inline-block;
+}
+
+iframe {
+	outline: 0;
+	border: 0;
+	background-color: #808080;
+}

@@ -1,0 +1,9 @@
+footer {
+	display: flex;
+	align-items: baseline;
+	gap: 1em;
+	border-top: solid 1px currentcolor;
+	overflow: hidden;
+	padding: 1em 0;
+	color: var(--color-primary);
+}
