@@ -1,14 +1,13 @@
 header {
 	position: relative;
 	display: grid;
-	grid-template-areas: 'logo menu'
+	grid-template-areas:
+		'logo menu'
 		'search-bar search-bar';
 	align-items: baseline;
 	justify-content: space-between;
 	gap: 1em;
 	overflow: hidden;
-	padding: 1em 0;
-	color: var(--color-primary);
 }
 
 @media (min-width: 640px) {

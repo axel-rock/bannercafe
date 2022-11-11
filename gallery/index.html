@@ -1,23 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Bannercafe</title>
-		<script type="module" src="/testlist.js"></script>
 		<script type="module" src="/components/components-library.js"></script>
 		<script type="module" src="/components/creative-overview/creative-overview.js"></script>
-		<script type="module" src="/js/shared.js" defer></script>
-		<script type="module" src="/libs/bin-packing-master/packer.growing.js"></script>
-		<script type="module" src="./gallery.js" defer></script>
-		<script type="module" src="./showLocalContent.js" defer></script>
+		<script type="module" src="/js/shared.js"></script>
+		<script type="module" src="./gallery.js"></script>
+		<script type="module" src="./showLocalContent.js"></script>
+		<!-- <script type="module" src="./showDistantContent.js" defer></script> -->
 		<script src="https://unpkg.com/filer"></script>
-		<link rel="stylesheet" href="/css/style.css"/>
-		<link rel="stylesheet" href="./gallery.css"/>
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="./gallery.css" />
 	</head>
 	<body>
 		<site-header></site-header>
 		<div>
 			<button id="browse">Load local files</button>
+			<button id="refresh">Refresh</button>
+			<span class="spacer"></span>
 			<form>
 				<label for="layout">Layout: </label>
 				<select id="layout" name="layout" class="save-preference">
@@ -26,7 +28,8 @@
 				</select>
 			</form>
 		</div>
-		<main id="gallery"></main>
+		<main id="gallery" class="dot-pattern"></main>
+		<site-loader></site-loader>
 		<site-footer></site-footer>
 	</body>
 </html>

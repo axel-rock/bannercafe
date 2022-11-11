@@ -34,6 +34,15 @@ class BannerPreview extends HTMLElement {
       let iframeWindow = this.iframe.contentWindow
       iframeWindow.console.log = function() { /* nop */ }
       iframeWindow.console.error = function() { /* nop */ }
+
+//       setTimeout(() => {
+//         console.log(iframeWindow.clickTag)
+//         iframeWindow.gsap.globalTimeline.pause()
+//       }, 1000)
+//
+//       setTimeout(() => {
+//         iframeWindow.gsap.globalTimeline.resume()
+//       }, 2000)
     }
 
     this.becomesInvisible = () => {

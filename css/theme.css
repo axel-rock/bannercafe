@@ -1,37 +1,43 @@
 :root {
 	--background-color: #212121;
-	--background-color-transparent: #212121FF;
-	--color-primary: #FFFFFF;
-	--color: #FFFFFFB3;
-	--color-disabled: #FFFFFF4D;
+	--background-color-transparent: #212121ff;
+	--color-primary: #ffffff;
+	--color: #ffffffb3;
+	--color-transparent: #ffffff11;
+	--color-disabled: #ffffff4d;
 	--input-background: #00000061;
 
-	--highlight: #408EEA;
-	--highlight-contrast: #FFFFFF;
-	--highlight-secondary: #6DD982;
+	--line-width: 2px;
+	--gap: 1em;
+
+	--highlight: #408eea;
+	--highlight-contrast: #ffffff;
+	--highlight-secondary: #6dd982;
 	--highlight-secondary-contrast: #000000;
 	--content-max-width: 900px;
-	--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 @media (prefers-color-scheme: light) {
-	:root:not(:has(#theme-selector > [value="dark"]:checked)) {
-		--background-color: #EEEEEE;
-		--background-color-transparent: #EEEEEEFF;
-		--color-primary: #000000E0;
-		--color: #0000008A;
+	:root:not(:has(#theme-selector > [value='dark']:checked)) {
+		--background-color: #eeeeee;
+		--background-color-transparent: #eeeeeeff;
+		--color-primary: #000000e0;
+		--color: #0000008a;
+		--color-transparent: #00000011;
 		--color-disabled: #00000061;
-		--input-background: #FFFFFF;
+		--input-background: #ffffff;
 	}
 }
 
-:root:has(#theme-selector > [value="light"]:checked) {
-	--background-color: #EEEEEE;
-	--background-color-transparent: #EEEEEEFF;
-	--color-primary: #000000E0;
-	--color: #0000008A;
+:root:has(#theme-selector > [value='light']:checked) {
+	--background-color: #eeeeee;
+	--background-color-transparent: #eeeeeeff;
+	--color-primary: #000000e0;
+	--color: #0000008a;
 	--color-disabled: #00000061;
-	--input-background: #FFFFFF;
+	--input-background: #ffffff;
 }
 
 html {
@@ -47,7 +53,8 @@ body {
 	flex-direction: column;
 }
 
-header, footer {
+header,
+footer {
 	color: var(--color-primary);
 }
 
@@ -55,12 +62,19 @@ h1 {
 	font-size: 2.8rem;
 }
 
-header > a.active, footer > a.active {
-	opacity: 0.5;
+header > a.active,
+footer > a.active {
+	color: var(--color-primary);
 }
 
 hr {
-	background-image: repeating-linear-gradient(45deg, currentcolor 0%, currentcolor 4px, transparent 4px, transparent 12px);
+	background-image: repeating-linear-gradient(
+		45deg,
+		currentcolor 0%,
+		currentcolor var(--line-width),
+		transparent var(--line-width),
+		transparent calc(var(--line-width) * 3)
+	);
 	height: 48px;
 	border: 0;
 	width: 100%;
@@ -69,4 +83,17 @@ hr {
 dialog {
 	color: var(--color);
 	background-color: var(--background-color);
+}
+
+.dot-pattern:before {
+	content: '';
+	position: absolute;
+	width: calc(100% + 40px);
+	height: calc(100% + 20px);
+	top: -1px;
+	left: -21px;
+	background-image: radial-gradient(var(--color-disabled) 1px, transparent 0);
+	background-size: 20px 20px;
+	background-position: -9px -9px;
+	z-index: -1;
 }

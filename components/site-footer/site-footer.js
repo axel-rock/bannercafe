@@ -16,8 +16,8 @@ export class SiteFooter extends HTMLElement {
 		</style>
 		<footer>
 			<a href="/gallery/">Gallery</a>
-			<!--
 			<a href="/specs/">Specifications</a>
+			<!--
 			<a href="/details/">Details</a>
 			<a href="/side-by-side/">Side by side</a>
 			<a href="/roadmap/">Roadmap</a>

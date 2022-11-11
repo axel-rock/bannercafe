@@ -2,8 +2,12 @@ footer {
 	display: flex;
 	align-items: baseline;
 	gap: 1em;
-	border-top: solid 1px currentcolor;
+	border-top: solid var(--line-width) currentcolor;
 	overflow: hidden;
 	padding: 1em 0;
-	color: var(--color-primary);
+}
+
+footer label,
+footer select {
+	color: currentcolor;
 }

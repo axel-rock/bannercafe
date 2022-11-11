@@ -1,0 +1,17 @@
+site-loader dialog[open] {
+	display: grid;
+	place-content: center;
+	border: none;
+	width: 100vw;
+	height: 100vh;
+	margin: auto auto;
+	padding: 0;
+	text-shadow: 0 0 10px var(--color-transparent);
+	font-size: min(20vw, 20vh);
+	background: transparent;
+}
+
+site-loader dialog::backdrop {
+	/* background: var(--background-color-transparent); */
+	backdrop-filter: blur(5px);
+}

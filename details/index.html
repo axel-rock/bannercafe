@@ -1,6 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bannercafe</title>
 		<link rel="stylesheet" href="/css/style.css" />
 		<link rel="stylesheet" href="./details.css" />
 		<script type="module" src="/components/components-library.js"></script>
@@ -12,44 +15,67 @@
 		<site-header></site-header>
 
 		<main>
-			<div id="preview-container">
+			<span id="type">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+					<title>HTML5 Logo Badge</title>
+					<path fill="#E34F26" d="M71,460 L30,0 481,0 440,460 255,512" />
+					<path fill="#EF652A" d="M256,472 L405,431 440,37 256,37" />
+					<path
+						fill="#EBEBEB"
+						d="M256,208 L181,208 176,150 256,150 256,94 255,94 114,94 115,109 129,265 256,265zM256,355 L255,355 192,338 188,293 158,293 132,293 139,382 255,414 256,414z"
+					/>
+					<path
+						fill="#FFF"
+						d="M255,208 L255,265 325,265 318,338 255,355 255,414 371,382 372,372 385,223 387,208 371,208zM255,94 L255,129 255,150 255,150 392,150 392,150 392,150 393,138 396,109 397,94z"
+					/>
+				</svg>
+			</span>
+
+			<h1 id="name"></h1>
+
+			<span id="updated">
+				<calendar-date date="2022-11-26T09:12:00Z"></calendar-date>
+			</span>
+
+			<a id="prev"><</a>
+
+			<div id="preview">
 				<div id="width"></div>
 				<div id="height"></div>
 				<html-banner></html-banner>
 			</div>
 
-			<section id="type">
-				<span>
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-						<title>HTML5 Logo Badge</title>
-						<path fill="#E34F26" d="M71,460 L30,0 481,0 440,460 255,512"/>
-						<path fill="#EF652A" d="M256,472 L405,431 440,37 256,37"/>
-						<path fill="#EBEBEB" d="M256,208 L181,208 176,150 256,150 256,94 255,94 114,94 115,109 129,265 256,265zM256,355 L255,355 192,338 188,293 158,293 132,293 139,382 255,414 256,414z"/>
-						<path fill="#FFF" d="M255,208 L255,265 325,265 318,338 255,355 255,414 371,382 372,372 385,223 387,208 371,208zM255,94 L255,129 255,150 255,150 392,150 392,150 392,150 393,138 396,109 397,94z"/>
-					</svg>
-				</span>
-			</section>
+			<a id="next">></a>
+
+			<span id="likes">♥️ 24</span>
+
+			<span id="size"></span>
 
 			<section id="infos">
-				<div id="name"></div>
+				<h2>Infos</h2>
 			</section>
 
-			<section id="updated">
-				<calendar-date date="2022-11-26T09:12:00Z"></calendar-date>
+			<section id="versions">
+				<h2>Versions</h2>
 			</section>
 
-			<section id="size">
+			<section id="comments">
+				<h2>Comments</h2>
 			</section>
 
-			<!-- <section id="versions">
-				<h1>Versions</h1>
+			<section id="specs">
+				<h2>Specs</h2>
+			</section>
+
+			<span id="views">👁️ 148</span>
+
+			<!-- <section id="qa">
+				<h2>QA</h2>
 			</section> -->
-
-				<a id="prev"><</a>
-				<a id="next">></a>
 		</main>
-		<hr/>
+		<hr />
 
+		<site-loader></site-loader>
 		<site-footer></site-footer>
 	</body>
 </html>
