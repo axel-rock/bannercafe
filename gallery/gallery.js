@@ -24,10 +24,10 @@ function update() {
 
 	blocks.sort((a, b) => {
 		// console.log(Math.max(b.h, b.w), Math.max(a.h, a.w))
-		// return Math.max(b.h, b.w) < Math.max(a.h, a.w) // Longest dimension
+		return Math.max(b.h, b.w) < Math.max(a.h, a.w) // Longest dimension
 		// return (b.h * b.w) - (a.h * a.w) // Area
 		// return (b.h + b.w) > (a.h + a.w) // Perimeter
-		return b.w - a.w
+		// return b.w - a.w
 	}) // sort inputs for best results
 
 	packer.fit(blocks, gallery.clientWidth)

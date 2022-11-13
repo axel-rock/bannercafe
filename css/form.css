@@ -26,10 +26,10 @@ textarea {
 	line-height: 1;
 
 	/* Browsers have different default form fonts */
-/* 	font-size: 13px; */
-/* 	font-family: 'Helvetica Neue', Helvetica, Arial; */
-	caret-color: var(--color-primary);
-	color: var(--color-primary);
+	/* 	font-size: 13px; */
+	/* 	font-family: 'Helvetica Neue', Helvetica, Arial; */
+	caret-color: var(--color-1);
+	color: var(--color-1);
 }
 
 /* Remove the stupid outer glow in Webkit */
@@ -50,11 +50,11 @@ textarea {
 
 /* These elements are usually rendered a certain way by the browser */
 button,
-input[type=reset],
-input[type=button],
-input[type=submit],
-input[type=checkbox],
-input[type=radio],
+input[type='reset'],
+input[type='button'],
+input[type='submit'],
+input[type='checkbox'],
+input[type='radio'],
 select {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -64,27 +64,27 @@ select {
 /* Text Inputs
 -----------------------------------------------*/
 
-input[type=date],
-input[type=datetime],
-input[type=datetime-local],
-input[type=email],
-input[type=month],
-input[type=number],
-input[type=password],
-input[type=range],
-input[type=search],
-input[type=tel],
-input[type=text],
-input[type=time],
-input[type=url],
-input[type=week] {
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='email'],
+input[type='month'],
+input[type='number'],
+input[type='password'],
+input[type='range'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='time'],
+input[type='url'],
+input[type='week'] {
 }
 
 /* Button Controls
 -----------------------------------------------*/
 
-input[type=checkbox],
-input[type=radio] {
+input[type='checkbox'],
+input[type='radio'] {
 	width: 1.5rem;
 	height: 1.5rem;
 }
@@ -92,15 +92,14 @@ input[type=radio] {
 /* File Uploads
 -----------------------------------------------*/
 
-input[type=file] {
-
+input[type='file'] {
 }
 
 /* Search Input
 -----------------------------------------------*/
 
 /* Make webkit render the search input like a normal text field */
-input[type=search] {
+input[type='search'] {
 	-webkit-appearance: textfield;
 	-webkit-box-sizing: content-box;
 }
@@ -114,9 +113,9 @@ input[type=search] {
 -----------------------------------------------*/
 
 button,
-input[type="reset"],
-input[type="button"],
-input[type="submit"] {
+input[type='reset'],
+input[type='button'],
+input[type='submit'] {
 	/* Fix IE7 display bug */
 	overflow: visible;
 	width: auto;
@@ -144,7 +143,6 @@ textarea {
 -----------------------------------------------*/
 
 select {
-
 }
 
 select[multiple] {
@@ -153,11 +151,10 @@ select[multiple] {
 }
 
 button {
-	background-color: var(--highlight);
-	color: var(--highlight-contrast);
-	padding: 1.1rem 1rem 1.1rem 1rem;
+	background-color: var(--background-color-2);
+	color: var(--color-2);
+	padding: 1.1rem 1.5rem 1.1rem 1.5rem;
 	font-size: 1.4rem;
-	border-radius: 0.3rem;
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;

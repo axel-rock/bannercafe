@@ -46,7 +46,7 @@ ul[class] a,
 ol[class] a,
 a.nowrap {
 	text-decoration: none;
-	color: var(--color-primary);
+	color: var(--color-1);
 }
 
 /* A elements that don't have a class get default styles */
