@@ -13,8 +13,10 @@ export class ProfileButton extends HTMLElement {
 			<style>
 				@import '/components/profile-button/profile-button.css'
 			</style>
-			<img id="picture" src="${ProfileButton.LOGO_GOOGLE}"/>
-			<span>Sign in</span>
+			<a href="/profile/">
+				<img id="picture" src="${ProfileButton.LOGO_GOOGLE}" referrerpolicy="no-referrer"/>
+				<span>Sign in</span>
+			</a>
 		`
 		if (localStorage.getItem('user.photoURL'))
 			this.querySelector('#picture').src = localStorage.getItem('user.photoURL')
@@ -38,8 +40,6 @@ export class ProfileButton extends HTMLElement {
 
 		this.querySelector('#picture').src = user.photoURL
 		this.querySelector('span').textContent = user.displayName
-
-		this.onclick = () => signOut(this.auth)
 	}
 
 	onSignOut() {
@@ -47,11 +47,15 @@ export class ProfileButton extends HTMLElement {
 
 		localStorage.removeItem('user.photoURL')
 		localStorage.removeItem('user.displayName')
-
+		this.querySelector('a')
 		this.querySelector('#picture').src = ProfileButton.LOGO_GOOGLE
 		this.querySelector('span').textContent = 'Sign in'
 
-		this.onclick = () => signInWithRedirect(this.auth, new GoogleAuthProvider())
+		this.onclick = (e) => {
+			e.stopPropagation()
+			e.preventDefault()
+			signInWithRedirect(this.auth, new GoogleAuthProvider())
+		}
 	}
 
 	static get LOGO_GOOGLE() {

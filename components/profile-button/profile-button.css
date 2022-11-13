@@ -1,4 +1,4 @@
-profile-button {
+profile-button a {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--gap) * 0.5);

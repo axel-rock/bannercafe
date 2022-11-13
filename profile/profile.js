@@ -1,25 +1,45 @@
-// init firestore
-const db = firebase.firestore();
+import { firebaseApp } from '/js/firebase.js'
+import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js'
+const auth = getAuth(firebaseApp)
 
+auth.onAuthStateChanged((user) => {
+	console.log(user)
+	if (user) {
+		fillUserInfos(user)
+	} else {
+		onSignOut()
+	}
 
-// complete user class model in vanilla js with name, email, password, company and avatar
-class User {
-  constructor(name, email, password, company, avatar) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.company = company;
-    this.avatar = avatar;
-  }
+	document.querySelector('#sign-out').onclick = () => {
+		signOut(auth)
+	}
+})
 
-    // method to get user data from firestore  
-  getUserData() {
-    // get user data from firestore
-    db.collection("users")
-      .doc(this.email)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          // set user data to the user class  
-        }})}
+function fillUserInfos(user) {
+	for (var key in user) {
+		if (user.hasOwnProperty(key)) {
+			const element = document.querySelector('.user-' + key)
+			if (element) {
+				switch (element.tagName) {
+					case 'IMG':
+						element.onerror = () => {
+							if (element.classList.contains('user-photoURL'))
+								element.src = 'https://eu.ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName)
+						}
+						element.src = user[key]
+						break
+					default:
+						element.textContent = user[key]
+				}
+			}
+		}
+	}
+
+	document.querySelector('.user-metadata-creationTime').textContent = new Intl.DateTimeFormat().format(
+		new Date(user.metadata.creationTime)
+	)
+}
+
+function onSignOut() {
+	document.location.href = '/'
 }

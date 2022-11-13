@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Profile</title>
-		<script src="profile.js"></script>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bannercafe</title>
+		<script type="module" src="/components/components-library.js"></script>
+		<script type="module" src="/js/shared.js" defer></script>
+		<script type="module" src="./profile.js" defer></script>
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="./profile.css" />
+		<style>
+			main {
+				max-width: var(--content-max-width);
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Profile</h1>
-		<p>Hi, {{ user.name }}!</p>
-
+		<site-header></site-header>
+		<main>
+			<hgroup>
+				<img class="user-photoURL" referrerpolicy="no-referrer" />
+				<h1 class="user-displayName"></h1>
+			</hgroup>
+			<p class="user-email"></p>
+			<p>Joined <span class="user-metadata-creationTime"></span></p>
+			<button id="sign-out">Sign out</button>
+			<hr />
+		</main>
+		<site-loader></site-loader>
+		<site-footer></site-footer>
 	</body>
 </html>
