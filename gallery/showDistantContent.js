@@ -1,5 +1,8 @@
+import { firebaseApp } from '/js/firebase.js'
+import { getStorage, ref, getBytes } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
 const Filer = window.Filer
 const fs = new Filer.FileSystem().promises
+const storage = getStorage(firebaseApp)
 
 if (!('serviceWorker' in navigator)) {
 	console.warn('unable to initialize nohost service worker: not supported.')
@@ -13,31 +16,6 @@ if (!('serviceWorker' in navigator)) {
 			document.getElementById('browse').style.display = 'unset'
 		})
 }
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js'
-import {
-	getStorage,
-	ref,
-	getDownloadURL,
-	getBytes,
-} from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-	apiKey: 'AIzaSyARtlmgm-qj2B0s-PHw54iNNRCgtXXblPo',
-	authDomain: 'banner-cafe.firebaseapp.com',
-	projectId: 'banner-cafe',
-	storageBucket: 'banner-cafe.appspot.com',
-	messagingSenderId: '20216893464',
-	appId: '1:20216893464:web:eaf51f4de36837be12736d',
-}
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app)
 
 // const directory = '/test/epson_t3170m_300x250/'
 // const files = [

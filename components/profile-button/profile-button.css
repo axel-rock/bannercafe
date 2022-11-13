@@ -1,0 +1,23 @@
+profile-button {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--gap) * 0.5);
+	border-radius: 1em;
+	/* background: var(--color); */
+	/* color: var(--background-color); */
+	cursor: pointer;
+}
+
+profile-button img {
+	height: 1.5em;
+	aspect-ratio: 1;
+	background-color: var(--background-color);
+	border-radius: 4em;
+	object-fit: cover;
+}
+
+profile-button span {
+}
+
+profile-button:hover {
+}

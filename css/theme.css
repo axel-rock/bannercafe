@@ -7,7 +7,7 @@
 	--color-disabled: #ffffff4d;
 	--input-background: #00000061;
 
-	--line-width: 2px;
+	--line-width: 0.5px;
 	--gap: 1em;
 
 	--highlight: #408eea;
@@ -67,13 +67,21 @@ footer > a.active {
 	color: var(--color-primary);
 }
 
+header {
+	border-bottom: solid var(--line-width) currentcolor;
+}
+
+footer {
+	border-top: solid var(--line-width) currentcolor;
+}
+
 hr {
 	background-image: repeating-linear-gradient(
 		45deg,
 		currentcolor 0%,
-		currentcolor var(--line-width),
-		transparent var(--line-width),
-		transparent calc(var(--line-width) * 3)
+		currentcolor calc(var(--line-width) * 4),
+		transparent calc(var(--line-width) * 4),
+		transparent calc(var(--line-width) * 12)
 	);
 	height: 48px;
 	border: 0;

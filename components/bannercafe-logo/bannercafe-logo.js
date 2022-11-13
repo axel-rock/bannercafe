@@ -4,7 +4,7 @@ export class BannercafeLogo extends HTMLElement {
 		<style>
 			@import '/components/bannercafe-logo/bannercafe-logo.css'
 		</style>
-		<span>Banner</span><span>cafe</span>
+		<h1>Bannercafe</h1>
 		`
 	}
 }

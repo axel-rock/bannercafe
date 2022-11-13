@@ -1,4 +1,4 @@
-import {SearchBar} from '../search-bar.js'
+import {SearchBar} from '../search-bar/search-bar.js'
 import {BannercafeLogo} from '../bannercafe-logo/bannercafe-logo.js'
 
 export class SiteHeader extends HTMLElement {
@@ -10,10 +10,10 @@ export class SiteHeader extends HTMLElement {
 		</style>
 		<header>
 			<h1><a href="/"><bannercafe-logo></bannercafe-logo></a></h1>
-			<search-bar></search-bar>
+			<!--search-bar></search-bar-->
 			<div>
 				<a href="/gallery/">Gallery</a>
-				<!--<a href="#">Log in</a>-->
+				<profile-button></profile-button>
 			</div>
 		</header>
 		`
