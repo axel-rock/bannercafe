@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bannercafe</title>
+		<script type="module" src="/components/components-library.js"></script>
+		<script type="module" src="/js/shared.js" defer></script>
+		<link rel="stylesheet" href="/css/style.css" />
+		<style>
+			main {
+				max-width: var(--content-max-width);
+			}
+		</style>
+	</head>
+	<body>
+		<site-header></site-header>
+		<main>
+			<h1>FAQ</h1>
+			<details id="what-is-a-creative" open>
+				<summary>What is called a "creative" on Bannercafe?</summary>
+				<p>
+					A creative represents a single banner. For now, it has to be an HTML5 banner. In the future, more formats
+					might be supported.
+				</p>
+			</details>
+			<details id="what-is-a-campaign" open>
+				<summary>What is called a "campaign" on Bannercafe?</summary>
+				<p>A campaign is a collection of creatives. You can see it as a collection, or a folder.</p>
+			</details>
+			<hr />
+		</main>
+		<site-loader></site-loader>
+		<site-footer></site-footer>
+	</body>
+</html>

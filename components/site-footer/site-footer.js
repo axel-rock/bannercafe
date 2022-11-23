@@ -1,12 +1,12 @@
 export class SiteFooter extends HTMLElement {
-// 	constructor() {
-// 		super()
-//
-// 		this.attachShadow({mode: 'open'})
-// 		this.shadowRoot.appendChild(template.content.cloneNode(true))
-//
-// 		this.innerHTML = template.content.cloneNode(true)
-// 	}
+	// 	constructor() {
+	// 		super()
+	//
+	// 		this.attachShadow({mode: 'open'})
+	// 		this.shadowRoot.appendChild(template.content.cloneNode(true))
+	//
+	// 		this.innerHTML = template.content.cloneNode(true)
+	// 	}
 
 	connectedCallback() {
 		// #todo Set Active Attribute
@@ -16,8 +16,9 @@ export class SiteFooter extends HTMLElement {
 		</style>
 		<footer>
 			<a href="/gallery/">Gallery</a>
-			<a href="/specs/">Specifications</a>
+			<a href="/faq/">FAQ</a>
 			<!--
+			<a href="/specs/">Specifications</a>
 			<a href="/details/">Details</a>
 			<a href="/side-by-side/">Side by side</a>
 			<a href="/roadmap/">Roadmap</a>
@@ -32,13 +33,12 @@ export class SiteFooter extends HTMLElement {
 		`
 
 		const themeSelector = this.querySelector('#theme-selector')
-		themeSelector.onchange = e => {
+		themeSelector.onchange = (e) => {
 			console.log(themeSelector.value)
 		}
 
-		this.querySelectorAll('a').forEach(anchor => {
-			if (anchor.pathname.split('/')[1] === window.location.pathname.split('/')[1])
-				anchor.classList.add('active')
+		this.querySelectorAll('a').forEach((anchor) => {
+			if (anchor.pathname.split('/')[1] === window.location.pathname.split('/')[1]) anchor.classList.add('active')
 		})
 	}
 }

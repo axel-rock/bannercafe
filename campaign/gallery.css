@@ -1,0 +1,47 @@
+/* Compact view */
+
+:has(#layout > [value='compact']:checked) #gallery {
+	position: relative;
+	height: calc(var(--compact-height) * 1px);
+}
+
+:has(#layout > [value='compact']:checked) #gallery creative-overview {
+	transition: 0.5s;
+}
+
+:has(#layout > [value='compact']:checked) #gallery:has(creative-overview:hover) creative-overview:not(:hover) {
+	/* opacity: 0.3; */
+	filter: grayscale(1);
+}
+
+/* List view */
+
+:has(#layout > [value='list']:checked) #gallery {
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	gap: 1em;
+	grid-auto-rows: 2em;
+}
+
+:has(#layout > [value='list']:checked) creative-overview {
+	display: contents;
+}
+
+:has(#layout > [value='list']:checked) creative-overview html-banner {
+	display: none;
+}
+
+site-header + div {
+	display: flex;
+	gap: var(--gap);
+	align-items: center;
+}
+
+site-header + div > .spacer {
+	flex-grow: 1;
+}
+
+#browse,
+#refresh {
+	display: none;
+}

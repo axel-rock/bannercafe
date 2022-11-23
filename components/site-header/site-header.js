@@ -1,8 +1,7 @@
-import {SearchBar} from '../search-bar/search-bar.js'
-import {BannercafeLogo} from '../bannercafe-logo/bannercafe-logo.js'
+import { SearchBar } from '../search-bar/search-bar.js'
+import { BannercafeLogo } from '../bannercafe-logo/bannercafe-logo.js'
 
 export class SiteHeader extends HTMLElement {
-
 	connectedCallback() {
 		this.innerHTML = `
 		<style>
@@ -12,15 +11,16 @@ export class SiteHeader extends HTMLElement {
 			<h1><a href="/"><bannercafe-logo></bannercafe-logo></a></h1>
 			<!--search-bar></search-bar-->
 			<div>
+				<a href="/dashboard/">Dashboard</a>
 				<a href="/gallery/">Gallery</a>
+				<a href="/campaign/">Campaign</a>
 				<profile-button></profile-button>
 			</div>
 		</header>
 		`
 
-		this.querySelectorAll('a').forEach(anchor => {
-			if (anchor.pathname.split('/')[1] === window.location.pathname.split('/')[1])
-				anchor.classList.add('active')
+		this.querySelectorAll('a').forEach((anchor) => {
+			if (anchor.pathname.split('/')[1] === window.location.pathname.split('/')[1]) anchor.classList.add('active')
 		})
 	}
 }

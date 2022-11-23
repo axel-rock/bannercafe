@@ -1,9 +1,8 @@
 header {
 	position: relative;
 	display: grid;
-	grid-template-areas:
-		'logo menu';
-		/* 'search-bar search-bar'; */
+	grid-template-areas: 'logo menu';
+	/* 'search-bar search-bar'; */
 	align-items: baseline;
 	justify-content: space-between;
 	padding: var(--gap) 0;
@@ -43,6 +42,7 @@ header > div {
 	display: flex;
 	gap: 1em;
 	justify-self: end;
+	min-width: max-content;
 }
 
 header > search-bar {

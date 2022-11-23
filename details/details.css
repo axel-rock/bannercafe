@@ -3,35 +3,29 @@ main {
 	display: grid;
 	gap: calc(var(--gap) * 0.25);
 	place-items: center;
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: 1fr 1fr;
 	grid-template-rows: min-content minmax(max-content, 50vh);
 	grid-template-areas:
-		'name name name name name name'
-		'preview preview preview preview preview preview'
-		'prev prev prev next next next'
-		'type updated size views likes newtab';
+		'name name'
+		'preview preview'
+		'prev next'
+		'squares squares';
 }
 
 main > * {
 	width: inherit;
 }
 
-.square {
-	/* aspect-ratio: 1; */
-	height: var(--size);
-	width: inherit;
-	background-color: var(--background-color-1);
-	display: grid;
-	place-content: center;
-}
-
 #name {
 	grid-area: name;
 	overflow-wrap: break-word;
+	align-self: flex-start;
+	justify-self: flex-start;
 }
 
 main {
 	container: main size;
+
 }
 
 #preview {
@@ -67,32 +61,23 @@ main {
 	grid-area: next;
 }
 
-#type {
-	grid-area: type;
-}
-
 #type svg {
 	width: 2em;
 }
 
-#updated {
-	grid-area: updated;
+.squares {
+	grid-area: squares;
+	display: flex;
+	gap: calc(var(--gap) * 0.25);
 }
 
-#size {
-	grid-area: size;
-}
-
-#views {
-	grid-area: views;
-}
-
-#likes {
-	grid-area: likes;
-}
-
-#newtab {
-	grid-area: newtab;
+.square {
+	/* aspect-ratio: 1; */
+	height: var(--size);
+	width: inherit;
+	background-color: var(--background-color-1);
+	display: grid;
+	place-content: center;
 }
 
 section {
@@ -104,20 +89,18 @@ section {
 /* Alternate layout */
 
 main:has(#preview .tall) {
-	padding-top: 2em;
-	grid-template-columns: var(--size) auto repeat(2, 1fr) var(--size);
+	grid-template-columns: var(--size) max-content min-content var(--size);
 	grid-template-rows: auto auto;
+	justify-content: space-between;
 	grid-template-areas:
-		'. preview name name name'
-		'prev preview size views next'
-		'prev preview likes updated next'
-		'prev preview type newtab next'
-		'prev preview . . next'
-		'prev preview . . next';
+		'name name preview .'
+		'prev squares preview next'
+		'prev . preview next';
 }
 
 main:has(#preview .tall) #preview {
 	margin-right: 2em;
+	padding-top: 2em;
 }
 
 main:has(#preview .tall) :where(#prev, #next) {
