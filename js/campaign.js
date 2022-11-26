@@ -15,7 +15,6 @@ export default class Campaign {
 
 	static async fromId(id) {
 		try {
-			console.log(Campaign.COLLECTION, id)
 			const docRef = doc(db, Campaign.COLLECTION, id)
 			const docSnap = await getDoc(docRef)
 

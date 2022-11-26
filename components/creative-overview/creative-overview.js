@@ -1,13 +1,12 @@
 import '/components/html-banner/html-banner.js'
+import '/components/default-preview/default-preview.js'
+import '/components/psd-preview/psd-preview.js'
 import Creative from '/js/creative.js'
 
 export class CreativeOverview extends HTMLElement {
-	constructor() {
-		super()
-	}
-
 	connectedCallback() {
 		// #todo Set Active Attribute
+		if (!this.creative) return
 	}
 
 	static get observedAttributes() {
@@ -20,12 +19,10 @@ export class CreativeOverview extends HTMLElement {
 
 	onUpdate() {
 		const src = this.getAttribute('src')
-		if (!src)
-			return
-		const dimensions = src.match(/\d+x\d+/)[0]
-
-		let width = this.width = +dimensions.split('x')[0]
-		let height = this.height = +dimensions.split('x')[1]
+		if (!src) return
+		this.creative.dimensions ??= src.match(/\d+x\d+/)[0]
+		this.creative.width ??= this.width = +dimensions.split('x')[0]
+		this.creative.height ??= this.height = +dimensions.split('x')[1]
 
 		//todo: creative class
 
@@ -39,20 +36,47 @@ export class CreativeOverview extends HTMLElement {
 				<span class="size">${Creative.humanFileSize(this.creative.size)}</span>
 			</a>
 			`
-		this.preview = document.createElement('html-banner')
 
+		switch (this.creative.type) {
+			case 'html':
+				this.preview = document.createElement('html-banner')
+				break
+			case 'jpg':
+			case 'png':
+				this.preview = document.createElement('img')
+				break
+			case 'mp4':
+				this.preview = document.createElement('video')
+				break
+			case 'psd':
+				this.preview = document.createElement('psd-preview')
+				break
+			default:
+				this.preview = document.createElement('default-preview')
+				break
+		}
+
+		this.preview.creative = this.creative
+		this.preview.classList.add('preview')
 		this.querySelector('a').appendChild(this.preview)
 
-		if (this.getAttribute('src'))
-			this.preview.src = this.getAttribute('src')
+		if (this.getAttribute('src')) this.preview.src = this.getAttribute('src')
 
-		this.addEventListener('mousedown', e => {
+		this.addEventListener('mousedown', (e) => {
 			this.preview.style.pointerEvents = 'none'
 		})
 
-		this.addEventListener('mouseup', e => {
+		this.addEventListener('mouseup', (e) => {
 			this.preview.style.pointerEvents = 'auto'
 		})
+	}
+
+	get width() {
+		return this.creative.width
+	}
+
+	get height() {
+		return this.creative.height
 	}
 
 	get src() {
@@ -62,14 +86,6 @@ export class CreativeOverview extends HTMLElement {
 	set src(value) {
 		this.setAttribute('src', value)
 	}
-
-// 	get creative() {
-// 		return this.creative
-// 	}
-//
-// 	set creative(value) {
-// 		this.creative = value
-// 	}
 }
 
 window.customElements.define('creative-overview', CreativeOverview)

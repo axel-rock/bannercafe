@@ -1,11 +1,73 @@
+import { SiteLoader } from '../site-loader/site-loader.js'
+import Campaign from '/js/campaign.js'
+import Creative from '/js/creative.js'
+let template
+
 export class UploadDropzone extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
-		<style>
-			@import '/components/upload-dropzone/upload-dropzone.css'
-		</style>
-		<div>Upload dropzone</div>
-		`
+	static get observedAttributes() {
+		return ['campaign']
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		this.onUpdate()
+	}
+
+	async connectedCallback() {
+		if (!template) {
+			template = await fetch('/components/upload-dropzone/upload-dropzone.html')
+			template = await template.text()
+		}
+		this.innerHTML = template
+
+		this.addEventListeners()
+	}
+
+	onUpdate() {}
+
+	async onDrop(event) {
+		event.preventDefault()
+		SiteLoader.show()
+		this.hideDropzone()
+
+		let creatives = await Creative.getCreativesFromEntries(
+			[...event.dataTransfer.items].map((item) => item.webkitGetAsEntry())
+		)
+
+		await Promise.all(
+			creatives.map((creative) => {
+				return creative.upload(this.getAttribute('campaign'))
+			})
+		)
+		SiteLoader.hide()
+	}
+
+	hideDropzone() {
+		this.classList.remove('active')
+	}
+
+	get campaign() {
+		this.getAttribute('campaign')
+	}
+
+	set campaign(value) {
+		this.setAttribute('campaign', value)
+	}
+
+	addEventListeners() {
+		let lastTarget = null
+		window.addEventListener('dragenter', (e) => {
+			lastTarget = e.target
+			this.classList.add('active')
+			// this.style.opacity = 1
+		})
+		window.addEventListener('dragleave', (e) => {
+			if (e.target === lastTarget) this.hideDropzone()
+		})
+
+		this.addEventListener('dragover', (event) => event.preventDefault())
+		this.addEventListener('dragenter', (event) => event.preventDefault())
+		this.addEventListener('dragleave', (event) => event.preventDefault())
+		this.addEventListener('drop', this.onDrop)
 	}
 }
 

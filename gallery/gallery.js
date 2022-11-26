@@ -13,6 +13,9 @@ function update() {
 	const creatives = [...document.querySelectorAll('creative-overview')]
 
 	const blocks = creatives.map((element) => {
+		console.log(element)
+		element.style.setProperty('--compact-width', element.width)
+		element.style.setProperty('--compact-height', element.height)
 		return {
 			element,
 			// w: element.width + gap,
@@ -40,8 +43,6 @@ function update() {
 			block.element.style.display = 'none'
 			return
 		}
-		block.element.style.setProperty('--compact-width', block.w - gap)
-		block.element.style.setProperty('--compact-height', block.h - gap)
 		block.element.style.setProperty('--compact-left', block.fit.x)
 		block.element.style.setProperty('--compact-top', block.fit.y)
 	})

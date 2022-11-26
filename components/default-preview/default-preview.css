@@ -1,0 +1,6 @@
+default-preview {
+	background: var(--background-color-2);
+	color: var(--color-2);
+	display: grid;
+	place-items: center;
+}

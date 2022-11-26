@@ -157,6 +157,14 @@ button:hover {
 	box-shadow: 0 0 1em hsla(var(--hue), 100%, 50%, 0.75);
 }
 
+svg .fill-primary {
+	fill: var(--color-1);
+}
+
+svg .fill-accent {
+	fill: var(--background-color-5);
+}
+
 /* Utility classes */
 
 /* .surface {

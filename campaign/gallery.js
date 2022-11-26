@@ -13,12 +13,18 @@ function update() {
 	const creatives = [...document.querySelectorAll('creative-overview')]
 
 	const blocks = creatives.map((element) => {
+		const max = gallery.getBoundingClientRect().width - gridCells
+		const scale = Math.min(1, max / element.width)
+		const width = ~~(element.width * scale)
+		const height = ~~(element.height * scale)
+		element.style.setProperty('--compact-width', width)
+		element.style.setProperty('--compact-height', height)
 		return {
 			element,
 			// w: element.width + gap,
 			// h: element.height + gap,
-			w: Math.ceil((element.width + 1) / gridCells) * gridCells,
-			h: Math.ceil((element.height + 1) / gridCells) * gridCells,
+			w: Math.ceil((width + 1) / gridCells) * gridCells,
+			h: Math.ceil((height + 1) / gridCells) * gridCells,
 		}
 	})
 
@@ -40,8 +46,6 @@ function update() {
 			block.element.style.display = 'none'
 			return
 		}
-		block.element.style.setProperty('--compact-width', block.w - gap)
-		block.element.style.setProperty('--compact-height', block.h - gap)
 		block.element.style.setProperty('--compact-left', block.fit.x)
 		block.element.style.setProperty('--compact-top', block.fit.y)
 	})
