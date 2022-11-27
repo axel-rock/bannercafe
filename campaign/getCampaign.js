@@ -29,7 +29,7 @@ async function getCampaign(campaignId) {
 
 async function getCreatives(campaignId) {
 	const querySnapshot = await getDocs(query(collection(db, Creative.COLLECTION), where('campaign', '==', campaignId)))
-	const creatives = querySnapshot.docs.map((doc) => new Creative(doc.data()))
+	const creatives = querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
 
 	// await creatives.map((creative) => creative.storeLocally())
 

@@ -1,14 +1,4 @@
-const template = document.createElement('template'),
-	observerSettings = {
-		rootMargin: '-50vh 0px',
-		threshold: 0.1,
-	},
-	observer = new IntersectionObserver((entries, observer) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) entry.target.becomesVisible()
-			else entry.target.becomesInvisible()
-		}, observerSettings)
-	})
+const template = document.createElement('template')
 
 template.innerHTML = `
 	<style>
@@ -28,19 +18,10 @@ class BannerPreview extends HTMLElement {
 		this.iframe = this.shadowRoot.querySelector('iframe')
 		this.fallback = this.shadowRoot.querySelector('img')
 		// this.iframe.loading = 'lazy'
-
-		this.becomesVisible = async () => {
-			await this.creative.loadFallback()
-			console.log(this.creative.fallback)
-			this.fallback.src = '/fs/' + this.creative.fallback
-		}
-
-		this.becomesInvisible = () => {}
-
-		observer.observe(this)
 	}
 
-	showIFrame() {
+	async showIFrame() {
+		await this.creative.storeLocally()
 		this.iframe.src = this.getAttribute('src')
 
 		// Trying to cancel console logs
@@ -62,11 +43,6 @@ class BannerPreview extends HTMLElement {
 		//       }, 2000)
 	}
 
-	hideIFrame() {
-		// this.shadowRoot.querySelector('iframe').style.background = 'red'
-		this.iframe.src = ''
-	}
-
 	connectedCallback() {
 		this.onUpdate()
 	}
@@ -77,7 +53,6 @@ class BannerPreview extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.onUpdate()
-		this.iframe.src = this.getAttribute('src')
 	}
 
 	onUpdate() {
@@ -102,6 +77,7 @@ class BannerPreview extends HTMLElement {
 
 	set src(value) {
 		this.setAttribute('src', value)
+		this.showIFrame()
 	}
 }
 

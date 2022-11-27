@@ -3,14 +3,35 @@ import '/components/default-preview/default-preview.js'
 import '/components/psd-preview/psd-preview.js'
 import Creative from '/js/creative.js'
 
+const loadFallbackObserver = new IntersectionObserver(
+	(entries, loadFallbackObserver) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				entry.target.becomesVisible()
+				loadFallbackObserver.unobserve(entry.target)
+			}
+		})
+	},
+	{ threshold: 0 }
+)
+
+const fullyInViewObserver = new IntersectionObserver(
+	(entries, observer) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				entry.target.becomesFullyVisible()
+			} else {
+				entry.target.becomesInvisible()
+			}
+		})
+	},
+	{ threshold: 1 }
+)
+
 export class CreativeOverview extends HTMLElement {
 	connectedCallback() {
 		// #todo Set Active Attribute
 		if (!this.creative) return
-	}
-
-	static get observedAttributes() {
-		return ['src']
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -30,12 +51,16 @@ export class CreativeOverview extends HTMLElement {
 			<style>
 				@import '/components/creative-overview/creative-overview.css'
 			</style>
-			<a href="/details/?name=${this.creative.name}">
+			<!--a href="/details/?name=${this.creative.name}"-->
+			<a>
 				<span class="type">${this.creative.type}</span>
 				<span>${this.creative.name}</span>
 				<span class="size">${Creative.humanFileSize(this.creative.size)}</span>
+				<img class="fallback preview" src=""/>
 			</a>
 			`
+
+		this.fallback = this.querySelector('.fallback')
 
 		switch (this.creative.type) {
 			case 'html':
@@ -48,20 +73,24 @@ export class CreativeOverview extends HTMLElement {
 				break
 			case 'mp4':
 				this.preview = document.createElement('video')
+				this.preview.controls = true
+				this.preview.preload = 'metadata'
 				break
-			case 'psd':
-				this.preview = document.createElement('psd-preview')
-				break
+			// case 'psd':
+			// 	this.preview = document.createElement('psd-preview')
+			// 	break
 			default:
 				this.preview = document.createElement('default-preview')
 				break
 		}
 
-		this.preview.creative = this.creative
-		this.preview.classList.add('preview')
-		this.querySelector('a').appendChild(this.preview)
+		if (this.preview) {
+			this.preview.creative = this.creative
+			this.preview.classList.add('preview')
+			this.querySelector('a').appendChild(this.preview)
+		}
 
-		if (this.getAttribute('src')) this.preview.src = this.getAttribute('src')
+		// if (this.getAttribute('src')) this.preview.src = this.getAttribute('src')
 
 		this.addEventListener('mousedown', (e) => {
 			this.preview.style.pointerEvents = 'none'
@@ -70,6 +99,31 @@ export class CreativeOverview extends HTMLElement {
 		this.addEventListener('mouseup', (e) => {
 			this.preview.style.pointerEvents = 'auto'
 		})
+	}
+
+	startObserver() {
+		loadFallbackObserver.observe(this)
+		fullyInViewObserver.observe(this)
+	}
+
+	async becomesVisible() {
+		await this.creative.loadFallback()
+		this.fallback.src = (this.creative.fallback.startsWith('http') ? '' : '/fs/') + this.creative.fallback
+		if (this.preview.tagName === 'VIDEO') this.becomesFullyVisible()
+	}
+
+	async becomesFullyVisible() {
+		if (this.creative.getDownloadURL) {
+			this.preview.src = await this.creative.getDownloadURL()
+		} else if (this.preview) this.preview.src = this.creative.path
+	}
+
+	becomesInvisible() {
+		if (this.preview && this.preview.tagName !== 'VIDEO') this.preview.removeAttribute('src')
+	}
+
+	static get observedAttributes() {
+		return ['src']
 	}
 
 	get width() {

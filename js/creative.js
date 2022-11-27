@@ -6,7 +6,13 @@ import {
 	setDoc,
 	serverTimestamp,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
-import { getStorage, ref, uploadBytes, getBytes } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
+import {
+	getStorage,
+	ref,
+	uploadBytes,
+	getBytes,
+	getDownloadURL,
+} from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
 import { get } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 import Campaign from '/js/campaign.js'
 const Filer = window.Filer
@@ -26,7 +32,7 @@ export default class Creative {
 		this.files = files
 		this.campaign = campaign
 		this.size = size || this.files.map((file) => file.size).reduce((a, b) => a + b, 0)
-		this.fallback = fallback
+		if (fallback) this.fallback = fallback
 		this.tags = tags || []
 		this.user = user
 		this.timestamp = timestamp
@@ -41,7 +47,7 @@ export default class Creative {
 
 	async getFallback() {
 		console.warn('getFallback must be defined for each type')
-		return `https://place-hold.it/${this.width}x${this.height}`
+		this.fallback ??= `https://place-hold.it/${this.width}x${this.height}`
 	}
 
 	/**
@@ -83,7 +89,7 @@ export default class Creative {
 		// Update file paths
 		this.files = uploadSnapshots.map((snapshot) => snapshot.ref.fullPath)
 
-		if (!this.fallback.includes('/')) {
+		if (this.fallback && !this.fallback.includes('/')) {
 			const found = this.files.find((file) => file.endsWith(this.fallback))
 			console.log(this.files, this.fallback, found)
 			this.fallback = found
@@ -127,8 +133,10 @@ export default class Creative {
 	}
 
 	async loadFallback() {
-		console.log(this.fallback)
-		if (this.fallback) return this.storeLocally([this.fallback])
+		if (this.fallback) {
+			if (this.fallback.startsWith('http')) return this.fall
+			return this.storeLocally([this.fallback])
+		}
 	}
 
 	/**
@@ -142,6 +150,9 @@ export default class Creative {
 	static get SUPPORTED_EXTENSIONS() {
 		return {
 			psd: PSDCreative,
+			mp4: VideoCreative,
+			jpg: ImgCreative,
+			png: ImgCreative,
 		}
 	}
 
@@ -189,12 +200,16 @@ export default class Creative {
 	 */
 	static async fromEntry(entry) {
 		const extension = entry.name.split('.').pop()
-		const classForFileType = Creative.SUPPORTED_EXTENSIONS[extension] || Creative
-		return new classForFileType({
+		return Creative.fromObject({
 			name: entry.name,
 			type: extension,
 			files: [await Creative.#entryToFile(entry)],
 		})
+	}
+
+	static fromObject(object) {
+		const classForFileType = Creative.SUPPORTED_EXTENSIONS[object.type] || Creative
+		return new classForFileType(object)
 	}
 
 	/**
@@ -274,5 +289,18 @@ class PSDCreative extends Creative {
 		if (!this.height) this.height = psd.header.rows
 
 		this.fallback = fallback
+	}
+}
+
+class VideoCreative extends Creative {
+	async getDownloadURL() {
+		return getDownloadURL(ref(storage, this.files[0]))
+	}
+}
+
+class ImgCreative extends Creative {
+	async getFallback() {
+		console.log(this, this.files[0].name)
+		this.fallback = this.files[0].name
 	}
 }

@@ -30,8 +30,8 @@ function update() {
 
 	blocks.sort((a, b) => {
 		// console.log(Math.max(b.h, b.w), Math.max(a.h, a.w))
-		return Math.max(b.h, b.w) < Math.max(a.h, a.w) // Longest dimension
-		// return (b.h * b.w) - (a.h * a.w) // Area
+		// return Math.max(b.h, b.w) < Math.max(a.h, a.w) // Longest dimension
+		return b.h * b.w - a.h * a.w // Area
 		// return (b.h + b.w) > (a.h + a.w) // Perimeter
 		// return b.w - a.w
 	}) // sort inputs for best results
@@ -45,6 +45,9 @@ function update() {
 		}
 		block.element.style.setProperty('--compact-left', block.fit.x)
 		block.element.style.setProperty('--compact-top', block.fit.y)
+		setTimeout(() => {
+			block.element.startObserver()
+		}, 10)
 	})
 
 	document.getElementById('gallery').style.setProperty('--compact-height', packer.root.h)
