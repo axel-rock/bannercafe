@@ -119,11 +119,11 @@ footer > a.active {
 }
 
 header {
-	border-bottom: solid var(--line-width) currentcolor;
+	/* border-bottom: solid var(--line-width) currentcolor; */
 }
 
 footer {
-	border-top: solid var(--line-width) currentcolor;
+	/* border-top: solid var(--line-width) currentcolor; */
 }
 
 hr {

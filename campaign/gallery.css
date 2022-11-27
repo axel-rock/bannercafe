@@ -5,14 +5,13 @@
 	height: calc(var(--compact-height) * 1px);
 }
 
-:has(#layout > [value='compact']:checked) #gallery creative-overview {
+/* :has(#layout > [value='compact']:checked) #gallery creative-overview {
 	transition: 0.5s;
 }
 
 :has(#layout > [value='compact']:checked) #gallery:has(creative-overview:hover) creative-overview:not(:hover) {
-	/* opacity: 0.3; */
 	filter: grayscale(1);
-}
+} */
 
 /* List view */
 

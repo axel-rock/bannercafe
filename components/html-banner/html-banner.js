@@ -14,6 +14,7 @@ template.innerHTML = `
 	<style>
     @import '/components/html-banner/html-banner.css'
 	</style>
+	<img/>
 	<iframe></iframe>
 `
 
@@ -25,36 +26,45 @@ class BannerPreview extends HTMLElement {
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
 		this.iframe = this.shadowRoot.querySelector('iframe')
+		this.fallback = this.shadowRoot.querySelector('img')
 		// this.iframe.loading = 'lazy'
 
-		this.becomesVisible = () => {
-			this.iframe.src = this.getAttribute('src')
-
-			// Trying to cancel console logs
-			let iframeWindow = this.iframe.contentWindow
-			iframeWindow.console.log = function () {
-				/* nop */
-			}
-			iframeWindow.console.error = function () {
-				/* nop */
-			}
-
-			//       setTimeout(() => {
-			//         console.log(iframeWindow.clickTag)
-			//         iframeWindow.gsap.globalTimeline.pause()
-			//       }, 1000)
-			//
-			//       setTimeout(() => {
-			//         iframeWindow.gsap.globalTimeline.resume()
-			//       }, 2000)
+		this.becomesVisible = async () => {
+			await this.creative.loadFallback()
+			console.log(this.creative.fallback)
+			this.fallback.src = '/fs/' + this.creative.fallback
 		}
 
-		this.becomesInvisible = () => {
-			// this.shadowRoot.querySelector('iframe').style.background = 'red'
-			this.iframe.src = ''
-		}
+		this.becomesInvisible = () => {}
 
 		observer.observe(this)
+	}
+
+	showIFrame() {
+		this.iframe.src = this.getAttribute('src')
+
+		// Trying to cancel console logs
+		let iframeWindow = this.iframe.contentWindow
+		iframeWindow.console.log = function () {
+			/* nop */
+		}
+		iframeWindow.console.error = function () {
+			/* nop */
+		}
+
+		//       setTimeout(() => {
+		//         console.log(iframeWindow.clickTag)
+		//         iframeWindow.gsap.globalTimeline.pause()
+		//       }, 1000)
+		//
+		//       setTimeout(() => {
+		//         iframeWindow.gsap.globalTimeline.resume()
+		//       }, 2000)
+	}
+
+	hideIFrame() {
+		// this.shadowRoot.querySelector('iframe').style.background = 'red'
+		this.iframe.src = ''
 	}
 
 	connectedCallback() {
@@ -93,10 +103,6 @@ class BannerPreview extends HTMLElement {
 	set src(value) {
 		this.setAttribute('src', value)
 	}
-	//
-	//   render() {
-	//     this.h3
-	//   }
 }
 
 window.customElements.define('html-banner', BannerPreview)

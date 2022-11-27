@@ -17,6 +17,7 @@ export class SiteFooter extends HTMLElement {
 		<footer>
 			<a href="/gallery/">Gallery</a>
 			<a href="/faq/">FAQ</a>
+			<a href="https://bannercafe.montaigne.io" target="_blank">Blog</a>
 			<!--
 			<a href="/specs/">Specifications</a>
 			<a href="/details/">Details</a>

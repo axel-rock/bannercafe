@@ -38,19 +38,14 @@ function update() {
 
 	packer.fit(blocks, gallery.clientWidth)
 
-	console.groupCollapsed('Gallery')
-
 	blocks.forEach((block) => {
 		if (!block.fit) {
-			console.log(block, 'doesnt fit')
 			block.element.style.display = 'none'
 			return
 		}
 		block.element.style.setProperty('--compact-left', block.fit.x)
 		block.element.style.setProperty('--compact-top', block.fit.y)
 	})
-
-	console.groupEnd('Gallery')
 
 	document.getElementById('gallery').style.setProperty('--compact-height', packer.root.h)
 }

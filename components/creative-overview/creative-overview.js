@@ -40,6 +40,7 @@ export class CreativeOverview extends HTMLElement {
 		switch (this.creative.type) {
 			case 'html':
 				this.preview = document.createElement('html-banner')
+				this.preview.classList.add('fallback')
 				break
 			case 'jpg':
 			case 'png':

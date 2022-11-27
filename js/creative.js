@@ -14,6 +14,9 @@ const fs = new Filer.FileSystem().promises
 const db = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
 
+// Could not import PSD directly, this is a workaround for now
+import { PSDPreview } from '/components/psd-preview/psd-preview.js'
+
 export default class Creative {
 	constructor({ name, type, width, height, files, campaign, size, fallback, tags, user, timestamp }) {
 		this.name = name
@@ -23,12 +26,27 @@ export default class Creative {
 		this.files = files
 		this.campaign = campaign
 		this.size = size || this.files.map((file) => file.size).reduce((a, b) => a + b, 0)
-		this.fallback = fallback || `https://place-hold.it/${this.width}x${this.height}`
+		this.fallback = fallback
 		this.tags = tags || []
 		this.user = user
 		this.timestamp = timestamp
 	}
 
+	/**
+	 * Get and set metadata asynchronous
+	 */
+	async getSyncMetadata() {
+		return Promise.all([this.getFallback()])
+	}
+
+	async getFallback() {
+		console.warn('getFallback must be defined for each type')
+		return `https://place-hold.it/${this.width}x${this.height}`
+	}
+
+	/**
+	 * Get and set dimensions, parsed from file name
+	 */
 	getDimensions() {
 		return this.name.match(/\d+x\d+/)
 			? this.name
@@ -54,7 +72,6 @@ export default class Creative {
 	async upload(campaign) {
 		this.campaign = campaign
 		const docRef = doc(collection(db, Creative.COLLECTION))
-		console.log(['uploads', Campaign.COLLECTION, campaign, docRef.id].join('/'))
 
 		const uploadSnapshots = await Promise.all(
 			this.files.map((file) => {
@@ -65,23 +82,34 @@ export default class Creative {
 
 		// Update file paths
 		this.files = uploadSnapshots.map((snapshot) => snapshot.ref.fullPath)
-		// Add date field
 
+		if (!this.fallback.includes('/')) {
+			const found = this.files.find((file) => file.endsWith(this.fallback))
+			console.log(this.files, this.fallback, found)
+			this.fallback = found
+		}
+
+		// Add date field
 		this.timestamp = serverTimestamp()
 
+		// Add infos about who uploaded
 		this.user = await get('user')
 
-		const { ...creative } = this
 		// Update firestore
-
-		console.log(creative)
-
+		const { ...creative } = this
 		return await setDoc(docRef, creative)
 	}
 
-	async storeLocally() {
-		await Promise.all(
-			this.files.map((file) => {
+	async storeLocally(files = this.files) {
+		return Promise.all(
+			files.map(async (file) => {
+				// Don't redownload files if they exist locally
+				try {
+					const exist = (await fs.stat('/' + file)).isFile()
+					if (exist) {
+						return true
+					}
+				} catch (e) {}
 				const dirs = file.split('/')
 				dirs.forEach(async (dir, index) => {
 					try {
@@ -91,16 +119,16 @@ export default class Creative {
 					}
 				})
 
+				console.log('Downloading', file)
+
 				return getBytes(ref(storage, file)).then((bytes) => fs.writeFile('/' + file, Filer.Buffer.from(bytes)))
 			})
 		)
+	}
 
-		// try {
-		// 	await fs.mkdir('/test')
-		// 	await fs.mkdir(campaignId)
-		// } catch (e) {
-		// 	console.error(e)
-		// }
+	async loadFallback() {
+		console.log(this.fallback)
+		if (this.fallback) return this.storeLocally([this.fallback])
 	}
 
 	/**
@@ -109,6 +137,12 @@ export default class Creative {
 	 */
 	static get COLLECTION() {
 		return 'creatives'
+	}
+
+	static get SUPPORTED_EXTENSIONS() {
+		return {
+			psd: PSDCreative,
+		}
 	}
 
 	/**
@@ -138,7 +172,7 @@ export default class Creative {
 	 * @returns {Promise} - a promise that resolves in a Creative object
 	 */
 	static async fromEntries(entries) {
-		return new Creative({
+		return new HTMLCreative({
 			name: entries
 				.find((entry) => entry.name === 'index.html')
 				.fullPath.split('/')
@@ -154,9 +188,11 @@ export default class Creative {
 	 * @returns {Promise} - a promise that resolves in a Creative object
 	 */
 	static async fromEntry(entry) {
-		return new Creative({
+		const extension = entry.name.split('.').pop()
+		const classForFileType = Creative.SUPPORTED_EXTENSIONS[extension] || Creative
+		return new classForFileType({
 			name: entry.name,
-			type: entry.name.split('.').pop(),
+			type: extension,
 			files: [await Creative.#entryToFile(entry)],
 		})
 	}
@@ -201,5 +237,42 @@ export default class Creative {
 		} while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1)
 
 		return bytes.toFixed(dp) + ' ' + units[u]
+	}
+}
+
+class HTMLCreative extends Creative {
+	async getFallback() {
+		const fallbackInBanner = this.files.find((file) => file.name.split('.')[0] == this.name)
+		if (fallbackInBanner) {
+			this.fallback = fallbackInBanner.name
+		}
+	}
+}
+
+class PSDCreative extends Creative {
+	async getFallback() {
+		const buffer = await new Promise((resolve) => {
+			const reader = new FileReader()
+			reader.onload = (e) => {
+				resolve(Filer.Buffer.from(reader.result))
+			}
+			reader.readAsArrayBuffer(this.files[0])
+		})
+		await fs.writeFile('/' + this.files[0].name, buffer)
+
+		const psd = await PSDPreview.readPSD('/fs/' + this.files[0].name)
+
+		const fallback = this.files[0].name.replace('.psd', '.png')
+
+		// const file = new Blob([image.file.data], { type: 'image/png' })
+		const file = await fetch(psd.image.toBase64()).then((res) => res.blob())
+		file.name = fallback
+
+		this.files.push(file)
+		// Set dimensions from PSD if they didn't exist
+		if (!this.width) this.width = psd.header.cols
+		if (!this.height) this.height = psd.header.rows
+
+		this.fallback = fallback
 	}
 }

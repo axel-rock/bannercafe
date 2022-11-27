@@ -10,16 +10,17 @@ export class SiteLoader extends HTMLElement {
 		`
 	}
 
-	show() {
-		this.querySelector('dialog').showModal()
+	show(text = 'Loading') {
+		this.querySelector('dialog').textContent = text
+		if (!this.querySelector('dialog').open) this.querySelector('dialog').showModal()
 	}
 
 	hide() {
 		this.querySelector('dialog').close()
 	}
 
-	static show() {
-		document.querySelector('site-loader').show()
+	static show(text) {
+		document.querySelector('site-loader').show(text)
 	}
 
 	static hide() {

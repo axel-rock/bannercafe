@@ -12,26 +12,33 @@ import Creative from '/js/creative.js'
 const db = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
 
+// Get URL Parameters
 const params = new Proxy(new URLSearchParams(window.location.search), {
 	get: (searchParams, prop) => searchParams.get(prop),
 })
-
 const campaignId = params.id
 
-const campaign = await Campaign.fromId(campaignId)
+getCampaign(campaignId)
+getCreatives(campaignId)
 
-const q = query(collection(db, Creative.COLLECTION), where('campaign', '==', campaignId))
+async function getCampaign(campaignId) {
+	const campaign = await Campaign.fromId(campaignId)
+	document.querySelector('#campaign-name').textContent = campaign.name
+	document.querySelector('upload-dropzone').campaign = campaignId
+}
 
-const querySnapshot = await getDocs(q)
+async function getCreatives(campaignId) {
+	const querySnapshot = await getDocs(query(collection(db, Creative.COLLECTION), where('campaign', '==', campaignId)))
+	const creatives = querySnapshot.docs.map((doc) => new Creative(doc.data()))
 
-const creatives = querySnapshot.docs.map((doc) => new Creative(doc.data()))
+	// await creatives.map((creative) => creative.storeLocally())
 
-creatives.map((creative) => creative.storeLocally())
+	show(creatives)
+}
 
-show(creatives)
-
-document.querySelector('#campaign-name').textContent = campaign.name
-document.querySelector('upload-dropzone').campaign = campaignId
+// if (localStorage.getItem('distantCreatives')) {
+// 	show(JSON.parse(localStorage.getItem('distantCreatives')))
+// }
 
 function show(creatives) {
 	creatives.forEach((creative) => {
@@ -40,8 +47,4 @@ function show(creatives) {
 		overview.src = creative.path
 		gallery.appendChild(overview)
 	})
-}
-
-if (localStorage.getItem('distantCreatives')) {
-	show(JSON.parse(localStorage.getItem('distantCreatives')))
 }

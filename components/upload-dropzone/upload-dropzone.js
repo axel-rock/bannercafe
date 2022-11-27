@@ -26,19 +26,26 @@ export class UploadDropzone extends HTMLElement {
 
 	async onDrop(event) {
 		event.preventDefault()
-		SiteLoader.show()
+		SiteLoader.show('Collecting files')
 		this.hideDropzone()
 
 		let creatives = await Creative.getCreativesFromEntries(
 			[...event.dataTransfer.items].map((item) => item.webkitGetAsEntry())
 		)
 
+		console.log(creatives)
+		SiteLoader.show('Generate metadata')
+
 		await Promise.all(
-			creatives.map((creative) => {
+			creatives.map(async (creative) => {
+				await creative.getSyncMetadata()
 				return creative.upload(this.getAttribute('campaign'))
 			})
 		)
-		SiteLoader.hide()
+
+		setTimeout(() => {
+			SiteLoader.hide()
+		}, 1000)
 	}
 
 	hideDropzone() {
