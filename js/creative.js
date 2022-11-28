@@ -13,7 +13,7 @@ import {
 	getBytes,
 	getDownloadURL,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
-import { get } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
+import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 import Campaign from '/js/campaign.js'
 const Filer = window.Filer
 const fs = new Filer.FileSystem().promises
@@ -24,7 +24,8 @@ const storage = getStorage(firebaseApp)
 import { PSDPreview } from '/components/psd-preview/psd-preview.js'
 
 export default class Creative {
-	constructor({ name, type, width, height, files, campaign, size, fallback, tags, user, timestamp }) {
+	constructor({ id, name, type, width, height, files, campaign, size, fallback, tags, user, timestamp }) {
+		this.id = id
 		this.name = name
 		this.type = type
 		this.width = width || this.getDimensions()[0]
@@ -36,13 +37,17 @@ export default class Creative {
 		this.tags = tags || []
 		this.user = user
 		this.timestamp = timestamp
+
+		set(this.id, this)
 	}
 
 	/**
 	 * Get and set metadata asynchronous
 	 */
 	async getSyncMetadata() {
-		return Promise.all([this.getFallback()])
+		await Promise.all([this.getFallback()])
+		set(this.id, this)
+		return this
 	}
 
 	async getFallback() {
@@ -78,6 +83,7 @@ export default class Creative {
 	async upload(campaign) {
 		this.campaign = campaign
 		const docRef = doc(collection(db, Creative.COLLECTION))
+		this.id = docRef.id
 
 		const uploadSnapshots = await Promise.all(
 			this.files.map((file) => {

@@ -5,11 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Bannercafe</title>
 		<link rel="stylesheet" href="/css/style.css" />
-		<link rel="stylesheet" href="./details.css" />
+		<link rel="stylesheet" href="./creative.css" />
 		<script type="module" src="/components/components-library.js"></script>
+		<script type="text/javascript" src="/js/libs/psd/psd.min.js"></script>
+		<script src="https://unpkg.com/filer"></script>
 		<script type="text/javascript" src="/components/html-banner/html-banner.js"></script>
 		<script type="module" src="/js/shared.js" defer></script>
-		<script type="module" src="details.js" defer></script>
+		<script type="module" src="showCreative.js" defer></script>
 	</head>
 	<body>
 		<site-header></site-header>
@@ -20,15 +22,13 @@
 			<div id="preview">
 				<div id="width"></div>
 				<div id="height"></div>
-				<html-banner></html-banner>
 			</div>
 
 			<a id="prev"><</a>
 
 			<a id="next">></a>
 
-			<div class="squares">
-
+			<!-- <div class="squares">
 				<span id="type" class="square">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 						<path fill="#E34F26" d="M71 460 30 0h451l-41 460-185 52" />
@@ -42,7 +42,7 @@
 							d="M255 208v57h70l-7 73-63 17v59l116-32 1-10 13-149 2-15h-16zm0-114v56h137l1-12 3-29 1-15z"
 						/>
 					</svg>
-				</span>
+				</span> -->
 
 				<span id="updated" class="square">
 					<calendar-date date="2022-11-26T09:12:00Z"></calendar-date>
@@ -54,11 +54,10 @@
 
 				<span id="likes" class="square">♥️ 24</span>
 
-				<span id="newtab" class="square">↗ Open in new tab</span>
-
+				<!-- <span id="newtab" class="square">↗ Open in new tab</span> -->
 			</div>
 
-			<section id="tags">
+			<!-- <section id="tags">
 				<h2>Tags</h2>
 			</section>
 
@@ -72,13 +71,12 @@
 
 			<section id="specs">
 				<h2>Specs</h2>
-			</section>
+			</section> -->
 
 			<!-- <section id="qa">
 				<h2>QA</h2>
 			</section> -->
 		</main>
-		<hr />
 
 		<site-loader></site-loader>
 		<site-footer></site-footer>

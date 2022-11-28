@@ -51,8 +51,7 @@ export class CreativeOverview extends HTMLElement {
 			<style>
 				@import '/components/creative-overview/creative-overview.css'
 			</style>
-			<!--a href="/details/?name=${this.creative.name}"-->
-			<a>
+			<a href="/creative/?id=${this.creative.id}&campaign=${this.creative.campaign}">
 				<span class="type">${this.creative.type}</span>
 				<span>${this.creative.name}</span>
 				<span class="size">${Creative.humanFileSize(this.creative.size)}</span>

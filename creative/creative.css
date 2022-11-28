@@ -25,7 +25,6 @@ main > * {
 
 main {
 	container: main size;
-
 }
 
 #preview {
@@ -38,6 +37,10 @@ main {
 	justify-content: center;
 	place-self: center;
 	width: min-content;
+}
+
+#preview img {
+	max-width: unset;
 }
 
 #prev,
