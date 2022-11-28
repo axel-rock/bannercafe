@@ -7,6 +7,6 @@ const config = {
 	storageBucket: 'banner-cafe.appspot.com',
 	messagingSenderId: '20216893464',
 	appId: '1:20216893464:web:eaf51f4de36837be12736d',
+	measurementId: 'G-65LMEMEBW6',
 }
-
 export const firebaseApp = initializeApp(config)

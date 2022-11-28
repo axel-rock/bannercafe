@@ -5,6 +5,7 @@ import {
 	doc,
 	setDoc,
 	serverTimestamp,
+	runTransaction,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
 import {
 	getStorage,
@@ -13,12 +14,14 @@ import {
 	getBytes,
 	getDownloadURL,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
+import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js'
 import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 import Campaign from '/js/campaign.js'
 const Filer = window.Filer
 const fs = new Filer.FileSystem().promises
 const db = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
+const analytics = getAnalytics()
 
 // Could not import PSD directly, this is a workaround for now
 import { PSDPreview } from '/components/psd-preview/psd-preview.js'
@@ -110,6 +113,15 @@ export default class Creative {
 		// Update firestore
 		const { ...creative } = this
 		return await setDoc(docRef, creative)
+	}
+
+	async logView() {
+		logEvent(analytics, 'creative_viewed', {
+			id: this,
+			name: this.name,
+			campaign: this.campaign,
+			name_and_campaign: [this.name, this.campaign].join('-'),
+		})
 	}
 
 	async storeLocally(files = this.files) {
