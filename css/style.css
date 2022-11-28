@@ -30,3 +30,7 @@ a {
 	color: currentcolor;
 	cursor: pointer;
 }
+
+.admin-only {
+	display: none;
+}

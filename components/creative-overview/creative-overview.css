@@ -9,6 +9,10 @@
 	background-color: var(--background-color-1);
 }
 
+.fallback {
+	pointer-events: none;
+}
+
 .fallback,
 video.preview {
 	position: absolute;

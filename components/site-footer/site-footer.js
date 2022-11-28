@@ -15,7 +15,7 @@ export class SiteFooter extends HTMLElement {
 			@import '/components/site-footer/site-footer.css'
 		</style>
 		<footer>
-			<a href="/gallery/">Gallery</a>
+			<a href="/sign-up/">Pricing</a>
 			<a href="/faq/">FAQ</a>
 			<a href="https://bannercafe.montaigne.io" target="_blank">Blog</a>
 			<!--
@@ -30,6 +30,9 @@ export class SiteFooter extends HTMLElement {
 				<option value="dark">Dark</option>
 				<option value="default" selected>System</option>
 			</select>
+			<span style="flex-grow:1"></span>
+			<span>Questions?</span>
+			<a href="mailto:barista@banner.cafe" class="rainbow">barista@banner.cafe</a>
 		</footer>
 		`
 

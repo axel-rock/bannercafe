@@ -30,6 +30,8 @@
 	--color-7: hsla(260, 7%, 30%, 1);
 	--color-8: hsla(260, 8%, 20%, 1);
 	--color-9: hsla(260, 9%, 10%, 1);
+
+	--raibow-gradient: linear-gradient(32deg, #28d6e6 0%, #5c49eb 42%, #dc61c1 63%, #fe562f 78%, #fcf433 100%);
 }
 
 @media (prefers-color-scheme: light) {
@@ -176,6 +178,10 @@ svg .fill-accent {
 	border: solid var(--line-width) var(--color-2);
 } */
 
+.center {
+	text-align: center;
+}
+
 .dot-pattern:before {
 	content: '';
 	position: absolute;
@@ -187,4 +193,19 @@ svg .fill-accent {
 	background-size: 20px 20px;
 	background-position: -9px -9px;
 	z-index: -1;
+}
+
+.rainbow {
+	background: var(--raibow-gradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.rainbow.button {
+	-webkit-background-clip: unset;
+	-webkit-text-fill-color: unset;
+	padding: calc(var(--gap) * 0.5) var(--gap);
+	border-radius: 1em;
+	color: var(--background-color-0);
+	font-weight: bold;
 }

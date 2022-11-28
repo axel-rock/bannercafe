@@ -11,10 +11,9 @@ export class SiteHeader extends HTMLElement {
 			<h1><a href="/"><bannercafe-logo></bannercafe-logo></a></h1>
 			<!--search-bar></search-bar-->
 			<div>
-				<a href="/dashboard/">Dashboard</a>
-				<a href="/gallery/">Gallery</a>
-				<a href="/campaign/">Campaign</a>
-				<profile-button></profile-button>
+				<a href="/dashboard/" class="admin-only">Dashboard</a>
+				<a href="/gallery/" class="admin-only">Gallery</a>
+				<profile-button class="admin-only"></profile-button>
 			</div>
 		</header>
 		`

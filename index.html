@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Bannercafe</title>
 		<script type="module" src="/components/components-library.js"></script>
 		<script type="module" src="/js/shared.js" defer></script>
-		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/style.css" />
 		<style>
 			main {
+				font-size: clamp(16px, 4vw, 2vh);
 				display: flex;
-				justify-content: center;
+				flex-direction: column;
+				gap: var(--gap);
 			}
+
+			main > section {
+				width: 80ch;
+				max-width: 100%;
+				align-self: center;
+			}
+
 			main h1 {
 				font-size: 22vw;
-				background: linear-gradient(90deg, rgb(44, 162, 180), rgb(85, 152, 222) 24%, rgb(127, 135, 255) 45%, rgb(246, 90, 173) 76%, rgb(236, 61, 67));
-				background: linear-gradient(32deg, #28d6e6 0%, #5c49eb 42%, #dc61c1 63%, #fe562f 78%, #fcf433 100%);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
+			}
+
+			h2 {
+				margin: 1em 0;
 			}
 		</style>
 	</head>
 	<body>
 		<site-header></site-header>
 		<main>
-			<h1>Welcome</h1>
+			<h1 class="rainbow center">Welcome</h1>
+			<p class="center">
+				<a class="rainbow button" href="/campaign/?id=fuq5SFeO4UdIZtrkho1m">See a preview</a>
+			</p>
+
+			<section>
+				<h2>Store your creatives safely</h2>
+				<p>Control who can see your creatives. URLs are not exposed if you don't want to.</p>
+				<p>
+					Keep track of the entire history of your uploads. Use it to compare the evolution of a creative after each
+					review, or retrieve lost files.
+				</p>
+			</section>
+
+			<section>
+				<h2>Simplify your review process</h2>
+				<p>
+					Save time and energy. Avoid back and forth, long email threads, and tons of zip files in your download folder
+				</p>
+			</section>
+
+			<section>
+				<h2>A powerful search engine</h2>
+				<p>
+					Agency often need to refer to previous work. Search across all your campaigns to get that banner you had in
+					mind in seconds
+				</p>
+			</section>
+
+			<section>
+				<h2>QA tools</h2>
+				<p>
+					Avoid unprofessional mistakes, like a missing click tag, or use of wrong ad platform. Bannercafé can help spot
+					some of these mistakes. And just email us if you see anything else we could check for you in the future
+				</p>
+			</section>
+
+			<p></p>
+
+			<p class="center">
+				<a class="rainbow button" href="/sign-up/">Sign up</a>
+			</p>
 		</main>
 		<site-loader></site-loader>
 		<site-footer></site-footer>
