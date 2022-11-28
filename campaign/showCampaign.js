@@ -1,7 +1,8 @@
 import { firebaseApp } from '/js/firebase.js'
 import {
 	getFirestore,
-	collection,
+	// collection,
+	collectionGroup,
 	query,
 	where,
 	getDocs,
@@ -28,7 +29,9 @@ async function getCampaign(campaignId) {
 }
 
 async function getCreatives(campaignId) {
-	const querySnapshot = await getDocs(query(collection(db, Creative.COLLECTION), where('campaign', '==', campaignId)))
+	const querySnapshot = await getDocs(
+		query(collectionGroup(db, Creative.COLLECTION), where('campaign', '==', campaignId))
+	)
 	const creatives = querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
 	show(creatives)
 }

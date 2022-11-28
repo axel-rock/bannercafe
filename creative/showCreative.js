@@ -1,9 +1,12 @@
 import Creative from '/js/creative.js'
+import Campaign from '/js/campaign.js'
 import { firebaseApp } from '/js/firebase.js'
 import {
 	getFirestore,
 	collection,
+	collectionGroup,
 	query,
+	orderBy,
 	where,
 	getDocs,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
@@ -15,28 +18,73 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 const campaignId = params.campaign
 let creative, creatives
 try {
-	creative = await get(Creative.fromObject(params.id))
+	creative = await get(Creative.fromObject(params.versionId))
 	creatives = await getCreatives(campaignId)
 } catch (e) {
 	creatives = await getCreatives(campaignId)
-	creative = creatives.find((creative) => creative.id == params.id)
+	creative = creatives.find((creative) => creative.creativeId == params.creativeId)
 }
+
 setNextAndPrev()
+await getVersions()
 
 async function getCreatives(campaignId) {
-	const querySnapshot = await getDocs(query(collection(db, Creative.COLLECTION), where('campaign', '==', campaignId)))
-	const creatives = querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
-	return creatives
+	const querySnapshot = await getDocs(
+		query(collectionGroup(db, Creative.COLLECTION), where('campaign', '==', campaignId))
+	)
+	return querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
+}
+
+async function getVersions() {
+	console.log(
+		[Campaign.COLLECTION, campaignId, Creative.COLLECTION, creative.creativeId, Creative.VERSION_COLLECTION].join('/')
+	)
+	const querySnapshot = await getDocs(
+		query(
+			collection(
+				db,
+				Campaign.COLLECTION,
+				campaignId,
+				Creative.COLLECTION,
+				creative.creativeId,
+				Creative.VERSION_COLLECTION
+			),
+			orderBy('timestamp', 'desc')
+		)
+	)
+	let versions = querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
+	console.table(versions)
+	versions.forEach(async (version) => {
+		console.log(version.timestamp.valueOf())
+		if (version.versionId === params.versionId) {
+			creative = version
+		}
+		const ul = document.querySelector('#versions ul')
+		const li = document.createElement('li')
+		li.innerHTML = `
+			<a href="/creative/?creativeId=${version.creativeId}&versionId=${version.versionId}&campaign=${
+			version.campaign
+		}" class="${version.versionId === params.versionId ? 'current' : ''}">
+				<img src="${version.user.photoURL}"/>
+				<span>${version.user.displayName}</span>
+				<calendar-date date="${version.timestamp.toDate()}"></calendar-date>
+			</a>
+		`
+		ul.appendChild(li)
+	})
+	await creative.storeLocally()
 }
 
 function setNextAndPrev() {
-	const index = creatives.findIndex((creative) => creative.id === params.id)
-	document.querySelector('#prev').href = `/creative/?id=${
-		creatives[(index + creatives.length - 1) % creatives.length].id
-	}&campaign=${campaignId}`
-	document.querySelector('#next').href = `/creative/?id=${
-		creatives[(index + 1) % creatives.length].id
-	}&campaign=${campaignId}`
+	const index = creatives.findIndex((creative) => creative.versionId === params.versionId)
+	const prev = creatives[(index + creatives.length - 1) % creatives.length]
+	const next = creatives[(index + 1) % creatives.length]
+	document.querySelector(
+		'#prev'
+	).href = `/creative/?creativeId=${prev.creativeId}&versionId=${prev.versionId}&campaign=${campaignId}`
+	document.querySelector(
+		'#next'
+	).href = `/creative/?creativeId=${next.creativeId}&versionId=${next.versionId}&campaign=${campaignId}`
 }
 
 let preview
@@ -81,6 +129,7 @@ if (creative.height > creative.width && creative.height > window.innerHeight * 0
 	// preview.classList.add('tall')
 }
 
+document.querySelector('#type').textContent = creative.type
 document.querySelector('#width').textContent = creative.width + 'px'
 document.querySelector('#height').textContent = creative.height + 'px'
 document.querySelector('#name').innerHTML = creative.name.replaceAll('_', '_<wbr>')

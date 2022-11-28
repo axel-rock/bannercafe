@@ -34,14 +34,19 @@ export class UploadDropzone extends HTMLElement {
 		)
 
 		console.log(creatives)
+
 		SiteLoader.show('Generate metadata')
 
-		await Promise.all(
-			creatives.map(async (creative) => {
-				await creative.getSyncMetadata()
-				return creative.upload(this.getAttribute('campaign'))
-			})
-		)
+		try {
+			await Promise.all(
+				creatives.map(async (creative) => {
+					await creative.getSyncMetadata()
+					return creative.upload(this.getAttribute('campaign'))
+				})
+			)
+		} catch (e) {
+			console.error(e)
+		}
 
 		setTimeout(() => {
 			SiteLoader.hide()

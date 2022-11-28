@@ -1,15 +1,16 @@
 main {
 	--size: 5em;
 	display: grid;
-	gap: calc(var(--gap) * 0.25);
+	gap: calc(var(--gap));
+	justify-content: center;
 	place-items: center;
-	grid-template-columns: 1fr 1fr;
+	/* grid-template-columns: 1fr 1fr;
 	grid-template-rows: min-content minmax(max-content, 50vh);
 	grid-template-areas:
 		'name name'
 		'preview preview'
 		'prev next'
-		'squares squares';
+		'squares squares'; */
 }
 
 main > * {
@@ -17,7 +18,6 @@ main > * {
 }
 
 #name {
-	grid-area: name;
 	overflow-wrap: break-word;
 	align-self: flex-start;
 	justify-self: flex-start;
@@ -28,70 +28,52 @@ main {
 }
 
 #preview {
-	grid-area: preview;
 	container: preview size;
 	flex-basis: 100%;
 	position: relative;
 	display: flex;
-	align-items: center;
 	justify-content: center;
-	place-self: center;
+	place-items: center;
 	width: min-content;
+	margin-top: 2em;
 }
 
 #preview img {
 	max-width: unset;
 }
 
-#prev,
-#next {
-	display: grid;
-	place-content: center;
-	flex-basis: 50%;
-	height: var(--size);
-}
-
-#next:hover,
-#prev:hover {
-	background: var(--background-color-1);
-}
-
-#prev {
-	grid-area: prev;
-}
-
-#next {
-	grid-area: next;
-}
-
-#type svg {
-	width: 2em;
-}
-
-.squares {
-	grid-area: squares;
+#actions,
+#infos {
 	display: flex;
-	gap: calc(var(--gap) * 0.25);
+	justify-content: center;
+	place-items: center;
+	gap: var(--gap);
 }
 
-.square {
-	/* aspect-ratio: 1; */
-	height: var(--size);
-	width: inherit;
-	background-color: var(--background-color-1);
-	display: grid;
-	place-content: center;
+#versions ul li a.current {
+	background: var(--background-color-2);
 }
 
-section {
-	grid-column: 1 / -1;
-	display: grid;
-	justify-content: start;
+#versions ul li a {
+	display: flex;
+	justify-content: space-between;
+	place-items: center;
+	gap: var(--gap);
+	padding: var(--gap);
+}
+
+#versions ul li a img {
+	width: 3em;
+	border-radius: 3em;
+}
+
+#versions ul li a span {
+	flex-grow: 1;
 }
 
 /* Alternate layout */
 
-main:has(#preview .tall) {
+/* main:has(#preview .tall) {
 	grid-template-columns: var(--size) max-content min-content var(--size);
 	grid-template-rows: auto auto;
 	justify-content: space-between;
@@ -99,16 +81,16 @@ main:has(#preview .tall) {
 		'name name preview .'
 		'prev squares preview next'
 		'prev . preview next';
-}
+} */
 
-main:has(#preview .tall) #preview {
+/* main:has(#preview .tall) #preview {
 	margin-right: 2em;
 	padding-top: 2em;
-}
+} */
 
-main:has(#preview .tall) :where(#prev, #next) {
+/* main:has(#preview .tall) :where(#prev, #next) {
 	height: 100%;
-}
+} */
 
 /* Show dimensions */
 

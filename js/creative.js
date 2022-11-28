@@ -4,6 +4,7 @@ import {
 	collection,
 	doc,
 	setDoc,
+	updateDoc,
 	serverTimestamp,
 	runTransaction,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
@@ -27,8 +28,23 @@ const analytics = getAnalytics()
 import { PSDPreview } from '/components/psd-preview/psd-preview.js'
 
 export default class Creative {
-	constructor({ id, name, type, width, height, files, campaign, size, fallback, tags, user, timestamp }) {
-		this.id = id
+	constructor({
+		versionId,
+		creativeId,
+		name,
+		type,
+		width,
+		height,
+		files,
+		campaign,
+		size,
+		fallback,
+		tags,
+		user,
+		timestamp,
+	}) {
+		this.versionId = versionId
+		this.creativeId = creativeId
 		this.name = name
 		this.type = type
 		this.width = width || this.getDimensions()[0]
@@ -41,7 +57,7 @@ export default class Creative {
 		this.user = user
 		this.timestamp = timestamp
 
-		set(this.id, this)
+		// set(this.versionId, this)
 	}
 
 	/**
@@ -49,7 +65,7 @@ export default class Creative {
 	 */
 	async getSyncMetadata() {
 		await Promise.all([this.getFallback()])
-		set(this.id, this)
+		// set(this.versionId, this)
 		return this
 	}
 
@@ -85,12 +101,31 @@ export default class Creative {
 
 	async upload(campaign) {
 		this.campaign = campaign
-		const docRef = doc(collection(db, Creative.COLLECTION))
-		this.id = docRef.id
+		this.creativeId = Creative.hashCode(this.name)
+		const creativeRef = doc(db, Campaign.COLLECTION, campaign, Creative.COLLECTION, this.creativeId)
+		const versionRef = doc(
+			collection(db, Campaign.COLLECTION, campaign, Creative.COLLECTION, this.creativeId, Creative.VERSION_COLLECTION)
+		)
+
+		console.log([Campaign.COLLECTION, campaign, Creative.COLLECTION, this.creativeId].join('/'))
+
+		this.versionId = versionRef.id
+
+		// return false
 
 		const uploadSnapshots = await Promise.all(
 			this.files.map((file) => {
-				const storageRef = ref(storage, ['uploads', Campaign.COLLECTION, campaign, docRef.id, file.name].join('/'))
+				const storageRef = ref(
+					storage,
+					[
+						'uploads',
+						Campaign.COLLECTION,
+						campaign,
+						// this.creativeId,
+						this.versionId,
+						file.name,
+					].join('/')
+				)
 				return uploadBytes(storageRef, file)
 			})
 		)
@@ -112,7 +147,7 @@ export default class Creative {
 
 		// Update firestore
 		const { ...creative } = this
-		return await setDoc(docRef, creative)
+		return await Promise.all([setDoc(creativeRef, creative, { merge: true }), setDoc(versionRef, creative)])
 	}
 
 	async logView() {
@@ -165,8 +200,17 @@ export default class Creative {
 		return 'creatives'
 	}
 
+	/**
+	 * Get the name of the firebase collection for Creatives
+	 * @type {String}
+	 */
+	static get VERSION_COLLECTION() {
+		return 'versions'
+	}
+
 	static get SUPPORTED_EXTENSIONS() {
 		return {
+			html: HTMLCreative,
 			psd: PSDCreative,
 			mp4: VideoCreative,
 			jpg: ImgCreative,
@@ -239,6 +283,24 @@ export default class Creative {
 				resolve(file)
 			})
 		})
+	}
+
+	/**
+	 * Returns a hash code from a string
+	 * @param  {String} str The string to hash.
+	 * @return {Number}    A 32bit integer
+	 * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+	 */
+	static hashCode(input) {
+		var output = ''
+		for (var i = 0; i < input.length; i++) {
+			if (input.charCodeAt(i) <= 127) {
+				output += input.charAt(i)
+			} else {
+				output += '&#' + input.charCodeAt(i) + ';'
+			}
+		}
+		return output.replaceAll('__.*__', '').replaceAll('/', '_')
 	}
 
 	/**
@@ -318,7 +380,6 @@ class VideoCreative extends Creative {
 
 class ImgCreative extends Creative {
 	async getFallback() {
-		console.log(this, this.files[0].name)
 		this.fallback = this.files[0].name
 	}
 }

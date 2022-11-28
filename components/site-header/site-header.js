@@ -12,7 +12,6 @@ export class SiteHeader extends HTMLElement {
 			<!--search-bar></search-bar-->
 			<div>
 				<a href="/dashboard/" class="admin-only">Dashboard</a>
-				<a href="/gallery/" class="admin-only">Gallery</a>
 				<profile-button class="admin-only"></profile-button>
 			</div>
 		</header>

@@ -31,7 +31,7 @@
 	--color-8: hsla(260, 8%, 20%, 1);
 	--color-9: hsla(260, 9%, 10%, 1);
 
-	--raibow-gradient: linear-gradient(32deg, #28d6e6 0%, #5c49eb 42%, #dc61c1 63%, #fe562f 78%, #fcf433 100%);
+	--rainbow-gradient: linear-gradient(32deg, #28d6e6 0%, #5c49eb 42%, #dc61c1 63%, #fe562f 78%, #fcf433 100%);
 }
 
 @media (prefers-color-scheme: light) {
@@ -89,7 +89,6 @@ html {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	font-size: 10px;
-
 	background: var(--background-color-1);
 	background: radial-gradient(farthest-corner, var(--background-color-1) 0%, var(--background-color-0) 100%);
 	background-attachment: fixed;
@@ -100,7 +99,8 @@ h2 {
 }
 
 body {
-	font-size: 1.6rem;
+	/* font-size: 1.6rem; */
+	font-size: clamp(1.6rem, 1vw, 3rem);
 	margin: 0;
 	display: flex;
 	flex-direction: column;
@@ -146,14 +146,18 @@ dialog {
 	background-color: var(--background-color-1);
 }
 
-button {
+button,
+a.button {
+	font-size: 1em;
 	border-radius: 2em;
 	font-weight: bold;
+	line-height: 1em;
 	color: var(--color-1);
 	background: linear-gradient(160deg, var(--background-color-2), var(--background-color-3));
 }
 
-button:hover {
+button:hover,
+a.button:hover {
 	color: var(--color-0);
 	background: linear-gradient(160deg, var(--background-color-3), var(--background-color-4));
 	box-shadow: 0 0 1em hsla(var(--hue), 100%, 50%, 0.75);
@@ -195,8 +199,10 @@ svg .fill-accent {
 	z-index: -1;
 }
 
-.rainbow {
-	background: var(--raibow-gradient);
+.rainbow,
+a.rainbow,
+button.rainbow {
+	background: var(--rainbow-gradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
