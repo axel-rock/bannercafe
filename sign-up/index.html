@@ -3,60 +3,42 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafe</title>
-		<script type="module" src="/components/components-library.js"></script>
+		<script type="module" src="/_components/components-library.js"></script>
 		<script type="module" src="/js/shared.js" defer></script>
 		<link rel="stylesheet" href="/css/style.css" />
 		<style>
-			main {
-				font-size: clamp(16px, 4vw, 2vh);
-				display: flex;
-				flex-direction: column;
-				gap: var(--gap);
-			}
-
-			main > section {
-				width: 80ch;
-				max-width: 100%;
-				align-self: center;
-			}
-
 			main h1 {
 				font-size: 22vw;
-			}
-
-			h2 {
-				margin: 1em 0;
 			}
 		</style>
 	</head>
 	<body>
 		<site-header></site-header>
 		<main>
-			<h1 class="rainbow center">Oops</h1>
+			<h1 class="center">Oops</h1>
 			<h2 class="center">We're not ready yet.</h2>
 
-			<section>
-				<p class="center">But you can be the first to know when we open.</p>
-				<br />
-				<p class="center">
-					<a
-						class="rainbow button"
-						target="_blank"
-						href="https://docs.google.com/forms/d/e/1FAIpQLSe7Eq7l8eD5XvEMVT0Z40IkJbtEpRB0EKJiRu_NDBYuHP0fNA/viewform?usp=sf_link"
-						>Sign up for early access</a
-					>
-				</p>
-			</section>
+			<p class="center">But you can be the first to know when we open.</p>
 
-			<section>
-				<h2 class="center">Impatient?</h2>
-				<p class="center">
-					Consider
-					<a class="rainbow" href="https://buy.stripe.com/14k7t88rSdKZg8M6oo" target="_blank">becoming a sponsor</a> of
-					Bannercafé.<br />As a solo developer, this will help validate the product idea, and ship it faster.
-				</p>
-			</section>
+			<p class="center">
+				<a
+					class="accent button rounded"
+					target="_blank"
+					href="https://docs.google.com/forms/d/e/1FAIpQLSe7Eq7l8eD5XvEMVT0Z40IkJbtEpRB0EKJiRu_NDBYuHP0fNA/viewform?usp=sf_link"
+					>Sign up for early access</a
+				>
+			</p>
+
+			<h2 class="center">Impatient?</h2>
+
+			<p class="center">
+				Consider
+				<a class="rainbow" href="https://buy.stripe.com/14k7t88rSdKZg8M6oo" target="_blank">becoming a sponsor</a> of
+				Bannercafé.<br />As a solo developer, this will help validate the product idea, and ship it faster.
+			</p>
 		</main>
 		<site-loader></site-loader>
 		<site-footer></site-footer>

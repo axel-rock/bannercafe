@@ -2,7 +2,7 @@ export class SiteLoader extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML = `
 			<style>
-				@import '/components/site-loader/site-loader.css'
+				@import '/_components/site-loader/site-loader.css'
 			</style>
 			<dialog>
 				Loading

@@ -1,0 +1,29 @@
+calendar-date {
+	font-weight: normal;
+}
+
+calendar-date > time {
+	display: grid;
+	grid-template-rows: 1fr auto 1fr;
+	align-items: center;
+	width: 2.5em;
+}
+
+calendar-date > time > * {
+	line-height: 1em;
+	font-size: 1.8em;
+	text-align: center;
+}
+
+calendar-date > time > *:first-child {
+	align-self: flex-end;
+}
+
+calendar-date > time > *:last-child {
+	align-self: flex-start;
+}
+
+calendar-date > time > *:first-child,
+calendar-date > time > *:last-child {
+	font-size: 0.6em;
+}

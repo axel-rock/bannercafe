@@ -25,7 +25,7 @@ const storage = getStorage(firebaseApp)
 const analytics = getAnalytics()
 
 // Could not import PSD directly, this is a workaround for now
-import { PSDPreview } from '/components/psd-preview/psd-preview.js'
+import { PSDPreview } from '/_components/psd-preview/psd-preview.js'
 
 export default class Creative {
 	constructor({

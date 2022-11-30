@@ -18,7 +18,7 @@ export class DefaultPreview extends HTMLElement {
 
 		this.innerHTML = `
 			<style>
-				@import '/components/default-preview/default-preview.css'
+				@import '/_components/default-preview/default-preview.css'
 			</style>
 			<span>${src.split('.').pop()}</span>
 			`

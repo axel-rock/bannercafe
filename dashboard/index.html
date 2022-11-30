@@ -3,9 +3,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafe</title>
-		<script type="module" src="/components/components-library.js"></script>
-		<script type="module" src="/components/creative-overview/creative-overview.js"></script>
+		<script type="module" src="/_components/components-library.js"></script>
+		<script type="module" src="/_components/creative-overview/creative-overview.js"></script>
 		<script type="module" src="/js/shared.js"></script>
 		<script type="module" src="./dashboard.js"></script>
 		<!-- <script type="module" src="./showLocalContent.js"></script> -->
@@ -17,7 +19,7 @@
 		<main>
 			<h1>Dashboard</h1>
 			<h2>Campaigns</h2>
-			<ul id="campaigns"></ul>
+			<ul id="campaigns" class="no-bullet"></ul>
 		</main>
 		<site-loader></site-loader>
 		<site-footer></site-footer>

@@ -3,8 +3,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafe</title>
-		<script type="module" src="/components/components-library.js"></script>
+		<script type="module" src="/_components/components-library.js"></script>
 		<script type="module" src="/js/shared.js" defer></script>
 		<link rel="stylesheet" href="/css/style.css" />
 		<style>
@@ -21,7 +23,8 @@
 			}
 
 			main h1 {
-				font-size: 22vw;
+				font-size: 18vw;
+				font-weight: normal;
 			}
 
 			h2 {
@@ -32,9 +35,9 @@
 	<body>
 		<site-header></site-header>
 		<main>
-			<h1 class="rainbow center">Welcome</h1>
+			<h1 class="center">Bannercafé</h1>
 			<p class="center">
-				<a class="rainbow button" href="/campaign/?id=fuq5SFeO4UdIZtrkho1m">See a preview</a>
+				<a class="accent button rounded" href="/campaign/?id=fuq5SFeO4UdIZtrkho1m">See a preview</a>
 			</p>
 
 			<section>
@@ -72,7 +75,7 @@
 			<p></p>
 
 			<p class="center">
-				<a class="rainbow button" href="/sign-up/">Sign up</a>
+				<a class="accent button rounded" href="/sign-up/">Sign up</a>
 			</p>
 		</main>
 		<site-loader></site-loader>

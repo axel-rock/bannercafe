@@ -1,10 +1,10 @@
 header {
 	position: relative;
 	display: grid;
-	grid-template-areas: 'logo menu';
-	/* 'search-bar search-bar'; */
 	align-items: baseline;
 	justify-content: space-between;
+	grid-template-areas: 'logo menu';
+	/* 'search-bar search-bar'; */
 	padding: var(--gap) 0;
 	gap: var(--gap);
 	overflow: hidden;

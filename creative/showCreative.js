@@ -64,7 +64,7 @@ async function getVersions() {
 		li.innerHTML = `
 			<a href="/creative/?creativeId=${version.creativeId}&versionId=${version.versionId}&campaign=${
 			version.campaign
-		}" class="${version.versionId === params.versionId ? 'current' : ''}">
+		}" class="${version.versionId === params.versionId ? 'current' : ''} button">
 				<img src="${version.user.photoURL}"/>
 				<span>${version.user.displayName}</span>
 				<calendar-date date="${version.timestamp.toDate()}"></calendar-date>

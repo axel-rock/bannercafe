@@ -2,35 +2,6 @@
 @import 'form.css';
 @import 'theme.css';
 
-* {
-	box-sizing: border-box;
-}
-
-body {
-	padding: 0 calc(var(--gap) * 2);
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-	min-height: 100vh;
-}
-
-h1 {
-	font-weight: 300;
-}
-
-main {
-	flex-grow: 1;
-	align-self: center;
-	width: 100%;
-}
-
-a {
-	text-decoration: none;
-	color: currentcolor;
-	cursor: pointer;
-}
-
 .admin-only {
 	display: none;
 }

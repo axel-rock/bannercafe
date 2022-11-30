@@ -2,7 +2,7 @@ const template = document.createElement('template')
 
 template.innerHTML = `
 	<style>
-    @import '/components/html-banner/html-banner.css'
+    @import '/_components/html-banner/html-banner.css'
 	</style>
 	<img/>
 	<iframe></iframe>

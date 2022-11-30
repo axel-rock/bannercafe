@@ -3,7 +3,7 @@ const Filer = window.Filer
 const fs = new Filer.FileSystem().promises
 import { showDirectoryPicker } from 'https://cdn.jsdelivr.net/npm/file-system-access/lib/es2018.js'
 import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
-import { SiteLoader } from '/components/components-library.js'
+import { SiteLoader } from '/_components/components-library.js'
 
 if (!('serviceWorker' in navigator)) {
 	console.warn('unable to initialize nohost service worker: not supported.')

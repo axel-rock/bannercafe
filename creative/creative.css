@@ -50,8 +50,19 @@ main {
 	gap: var(--gap);
 }
 
+#versions {
+	width: 100%;
+	max-width: 80ch;
+}
+
 #versions ul li a.current {
 	background: var(--background-color-2);
+	color: var(--color-2);
+}
+
+#versions ul li a.current:hover {
+	background: var(--accent-color-6);
+	color: var(--accent-color-9);
 }
 
 #versions ul li a {
@@ -59,7 +70,7 @@ main {
 	justify-content: space-between;
 	place-items: center;
 	gap: var(--gap);
-	padding: var(--gap);
+	padding: calc(var(--gap) * 0.5) var(--gap);
 }
 
 #versions ul li a img {

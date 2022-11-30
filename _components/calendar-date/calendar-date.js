@@ -9,7 +9,7 @@ export class CalendarDate extends HTMLElement {
 
 		this.innerHTML = `
 			<style>
-				@import '/components/calendar-date/calendar-date.css'
+				@import '/_components/calendar-date/calendar-date.css'
 			</style>
 			<time datetime="${date.toISOString()}" title="${new Intl.DateTimeFormat('default', {dateStyle: 'full', timeStyle: 'short'}).format(date)}">
 				<span>${new Intl.DateTimeFormat('default', {month: 'short'}).format(date)}</span>

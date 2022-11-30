@@ -21,6 +21,7 @@ try {
 
 		const link = document.createElement('a')
 		link.href = '/campaign/?id=' + doc.id
+		link.classList.add('button')
 		link.textContent = campaign.name
 		li.appendChild(link)
 	})

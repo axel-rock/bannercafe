@@ -20,7 +20,7 @@ export class PSDPreview extends HTMLElement {
 
 		this.innerHTML = `
 			<style>
-				@import '/components/psd-preview/psd-preview.css'
+				@import '/_components/psd-preview/psd-preview.css'
 			</style>
 			`
 

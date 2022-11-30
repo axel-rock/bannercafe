@@ -12,7 +12,7 @@ export class SiteFooter extends HTMLElement {
 		// #todo Set Active Attribute
 		this.innerHTML = `
 		<style>
-			@import '/components/site-footer/site-footer.css'
+			/* @import '/_components/site-footer/site-footer.css' */
 		</style>
 		<footer>
 			<a href="/sign-up/">Pricing</a>
@@ -32,7 +32,7 @@ export class SiteFooter extends HTMLElement {
 			</select>
 			<span style="flex-grow:1"></span>
 			<span>Questions?</span>
-			<a href="mailto:barista@banner.cafe" class="rainbow">barista@banner.cafe</a>
+			<a href="mailto:barista@banner.cafe" class="accent">barista@banner.cafe</a>
 		</footer>
 		`
 

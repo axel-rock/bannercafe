@@ -11,7 +11,7 @@ export class ProfileButton extends HTMLElement {
 		this.auth = getAuth(firebaseApp)
 		this.innerHTML = `
 			<style>
-				@import '/components/profile-button/profile-button.css'
+				@import '/_components/profile-button/profile-button.css'
 			</style>
 			<a href="/profile/">
 				<img id="picture" src="${ProfileButton.LOGO_GOOGLE}" referrerpolicy="no-referrer"/>

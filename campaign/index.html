@@ -3,10 +3,12 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafe</title>
-		<script type="module" src="/components/components-library.js"></script>
-		<script type="module" src="/components/creative-overview/creative-overview.js"></script>
-		<script type="module" src="/components/upload-dropzone/upload-dropzone.js"></script>
+		<script type="module" src="/_components/components-library.js"></script>
+		<script type="module" src="/_components/creative-overview/creative-overview.js"></script>
+		<script type="module" src="/_components/upload-dropzone/upload-dropzone.js"></script>
 		<script type="text/javascript" src="/js/libs/psd/psd.min.js"></script>
 		<script type="module" src="/js/shared.js"></script>
 		<script type="module" src="./gallery.js"></script>
@@ -18,32 +20,34 @@
 	</head>
 	<body>
 		<site-header></site-header>
-		<h1 id="campaign-name"></h1>
-		<!-- <aside>
-			<form method="GET">
-				Filters
-				<fieldset>
-					<label for="filter">Look for name</label>
-					<input type="search" id="filter" name="filter"/>
-				</fieldset>
+		<main>
+			<h1 id="campaign-name"></h1>
+			<!-- <aside>
+				<form method="GET">
+					Filters
+					<fieldset>
+						<label for="filter">Look for name</label>
+						<input type="search" id="filter" name="filter"/>
+					</fieldset>
 
-				<input type="submit">
-			</form>
-		</aside> -->
-		<div>
-			<button id="browse">Load local files</button>
-			<button id="refresh">Refresh</button>
-			<span class="spacer"></span>
-			<form>
-				<label for="layout">Layout: </label>
-				<select id="layout" name="layout" class="save-preference">
-					<option value="list">List</option>
-					<option value="compact">Compact</option>
-				</select>
-			</form>
-		</div>
-		<main id="gallery" class="dot-pattern"></main>
-		<upload-dropzone class="admin-only"></upload-dropzone>
+					<input type="submit">
+				</form>
+			</aside> -->
+			<div>
+				<button id="browse">Load local files</button>
+				<button id="refresh">Refresh</button>
+				<span class="spacer"></span>
+				<form>
+					<label for="layout">Layout: </label>
+					<select id="layout" name="layout" class="save-preference">
+						<option value="list">List</option>
+						<option value="compact">Compact</option>
+					</select>
+				</form>
+			</div>
+			<section id="gallery" class="dot-pattern"></section>
+			<upload-dropzone class="admin-only"></upload-dropzone>
+		</main>
 		<site-loader></site-loader>
 		<site-footer></site-footer>
 	</body>

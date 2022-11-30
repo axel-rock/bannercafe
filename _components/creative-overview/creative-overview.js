@@ -1,6 +1,6 @@
-import '/components/html-banner/html-banner.js'
-import '/components/default-preview/default-preview.js'
-import '/components/psd-preview/psd-preview.js'
+import '/_components/html-banner/html-banner.js'
+import '/_components/default-preview/default-preview.js'
+import '/_components/psd-preview/psd-preview.js'
 import Creative from '/js/creative.js'
 
 const loadFallbackObserver = new IntersectionObserver(
@@ -49,7 +49,7 @@ export class CreativeOverview extends HTMLElement {
 
 		this.innerHTML = `
 			<style>
-				@import '/components/creative-overview/creative-overview.css'
+				@import '/_components/creative-overview/creative-overview.css'
 			</style>
 			<a href="/creative/?creativeId=${this.creative.creativeId}&versionId=${this.creative.versionId}&campaign=${
 			this.creative.campaign

@@ -14,7 +14,7 @@ export class UploadDropzone extends HTMLElement {
 
 	async connectedCallback() {
 		if (!template) {
-			template = await fetch('/components/upload-dropzone/upload-dropzone.html')
+			template = await fetch('/_components/upload-dropzone/upload-dropzone.html')
 			template = await template.text()
 		}
 		this.innerHTML = template
