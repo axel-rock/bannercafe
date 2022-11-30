@@ -1,20 +1,63 @@
 main {
 	--size: 5em;
 	display: grid;
-	gap: calc(var(--gap));
+	gap: var(--gap);
 	justify-content: center;
 	place-items: center;
-	/* grid-template-columns: 1fr 1fr;
-	grid-template-rows: min-content minmax(max-content, 50vh);
-	grid-template-areas:
-		'name name'
-		'preview preview'
-		'prev next'
-		'squares squares'; */
+}
+
+main:has(#preview > .tall) {
+	grid-template-columns: min-content auto;
+	gap: calc(var(--gap) * 2);
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+main:has(#preview > .tall) #preview {
+	/* grid-row: 1 / 4; */
 }
 
 main > * {
 	width: inherit;
+}
+
+#sidebar {
+	display: grid;
+	gap: var(--gap);
+}
+
+#prev,
+#next {
+	position: fixed;
+	color: var(--color-7);
+	/* background: green; */
+	font-size: 2em;
+	line-height: 3em;
+	letter-spacing: 0.1em;
+	height: 80vh;
+	top: 10vh;
+	text-align: center;
+	/* text-transform: uppercase; */
+}
+
+nav {
+	position: absolute;
+	top: var(--gap);
+}
+
+#prev:hover,
+#next:hover {
+	color: var(--color-2);
+}
+
+#prev {
+	writing-mode: vertical-lr;
+	left: 0;
+}
+
+#next {
+	writing-mode: vertical-rl;
+	right: 0;
 }
 
 #name {
@@ -25,6 +68,13 @@ main > * {
 
 main {
 	container: main size;
+}
+
+nav {
+	display: flex;
+	justify-content: center;
+	place-items: center;
+	gap: calc(var(--gap) * 0.33);
 }
 
 #preview {
@@ -42,12 +92,34 @@ main {
 	max-width: unset;
 }
 
+#preview :is(img, video) {
+	max-width: 90vw;
+	max-height: 80vh;
+}
+
 #actions,
 #infos {
 	display: flex;
 	justify-content: center;
 	place-items: center;
 	gap: var(--gap);
+}
+
+#infos > * {
+	width: 4em;
+	aspect-ratio: 1/1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--background-color-2);
+	border-radius: 100%;
+	font-size: 1.25em;
+}
+
+section {
+	/* border: solid var(--line-width) var(--color-3); */
+	/* padding: var(--gap); */
+	width: -webkit-fill-available;
 }
 
 #versions {
@@ -80,6 +152,19 @@ main {
 
 #versions ul li a span {
 	flex-grow: 1;
+}
+
+#tags ul {
+	list-style-type: none;
+	padding: 0;
+	display: flex;
+	gap: var(--gap);
+	flex-wrap: wrap;
+}
+#tags li {
+	border-radius: 1em;
+	padding: calc(var(--gap) * 0.25) calc(var(--gap) * 0.5);
+	background: var(--background-color-2);
 }
 
 /* Alternate layout */
@@ -118,7 +203,8 @@ main {
 }
 
 #height {
-	left: calc(100% - 0.5em);
-	rotate: 0.25turn;
+	left: calc(100% + 0.25em);
+	writing-mode: vertical-lr;
+	/* rotate: 0.25turn; */
 	/* transform: rotate(-1turn); */
 }

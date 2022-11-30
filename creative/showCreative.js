@@ -36,9 +36,6 @@ async function getCreatives(campaignId) {
 }
 
 async function getVersions() {
-	console.log(
-		[Campaign.COLLECTION, campaignId, Creative.COLLECTION, creative.creativeId, Creative.VERSION_COLLECTION].join('/')
-	)
 	const querySnapshot = await getDocs(
 		query(
 			collection(
@@ -53,9 +50,7 @@ async function getVersions() {
 		)
 	)
 	let versions = querySnapshot.docs.map((doc) => Creative.fromObject(doc.data()))
-	console.table(versions)
 	versions.forEach(async (version) => {
-		console.log(version.timestamp.valueOf())
 		if (version.versionId === params.versionId) {
 			creative = version
 		}
@@ -125,16 +120,31 @@ switch (creative.type) {
 
 document.querySelector('#preview').appendChild(preview)
 
-if (creative.height > creative.width && creative.height > window.innerHeight * 0.3) {
-	// preview.classList.add('tall')
+if (creative.height >= creative.width && creative.height > window.innerHeight * 0.3) {
+	preview.classList.add('tall')
 }
 
+document.querySelector('#campaign').href = `/campaign/?id=${campaignId}`
 document.querySelector('#type').textContent = creative.type
 document.querySelector('#width').textContent = creative.width + 'px'
 document.querySelector('#height').textContent = creative.height + 'px'
 document.querySelector('#name').innerHTML = creative.name.replaceAll('_', '_<wbr>')
 document.querySelector('#updated').innerHTML = `<calendar-date date="${creative.timestamp.toDate()}"></calendar-date>`
 document.querySelector('#size').innerHTML = Creative.humanFileSize(creative.size)
+
+const tags = [
+	...creative.name.split('.')[0].split('_'),
+	creative.dimensions,
+	creative.type,
+	Creative.humanFileSize(creative.size),
+]
+tags.forEach((tag) => {
+	document.querySelector('#tags>ul').innerHTML += `
+	<li>
+	${tag}
+	</li>
+	`
+})
 
 // function getCreative(id) {
 // 	return creatives[index]

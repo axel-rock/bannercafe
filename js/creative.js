@@ -58,8 +58,6 @@ export default class Creative {
 		this.tags = tags || []
 		this.user = user
 		this.timestamp = timestamp
-
-		// set(this.versionId, this)
 	}
 
 	/**
@@ -117,17 +115,7 @@ export default class Creative {
 
 		const uploadSnapshots = await Promise.all(
 			this.files.map((file) => {
-				const storageRef = ref(
-					storage,
-					[
-						'uploads',
-						Campaign.COLLECTION,
-						campaign,
-						// this.creativeId,
-						this.versionId,
-						file.name,
-					].join('/')
-				)
+				const storageRef = ref(storage, ['uploads', Campaign.COLLECTION, campaign, this.versionId, file.name].join('/'))
 				return uploadBytes(storageRef, file)
 			})
 		)
@@ -135,14 +123,10 @@ export default class Creative {
 		// Update file paths
 		this.files = uploadSnapshots.map((snapshot) => snapshot.ref.fullPath)
 
-		console.log(this.fallback)
-
 		if (this.fallback && !this.fallback.includes('/')) {
 			const found = this.files.find((file) => file.endsWith(this.fallback))
 			this.fallback = found
 		}
-
-		console.log(this.fallback)
 
 		// Add date field
 		this.timestamp = serverTimestamp()
@@ -158,7 +142,6 @@ export default class Creative {
 	async storeLocally(files = this.files) {
 		return Promise.all(
 			files.map(async (file) => {
-				console.log(typeof file === 'object', file)
 				if (typeof file === 'object') {
 					return new Promise(async (resolve, reject) => {
 						const reader = new FileReader()
@@ -176,8 +159,6 @@ export default class Creative {
 					})
 				}
 
-				return
-				// Don't redownload files if they exist locally
 				try {
 					const exist = (await fs.stat('/' + file)).isFile()
 					if (exist) {
@@ -402,8 +383,8 @@ class VideoCreative extends Creative {
 				resolve()
 				window.URL.revokeObjectURL(video.src)
 			})
-			video.load()
 			resolve(super.getDimensions())
+			video.load()
 		})
 	}
 

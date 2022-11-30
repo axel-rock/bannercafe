@@ -19,36 +19,48 @@
 		<site-header></site-header>
 
 		<main>
-			<h1 id="name"></h1>
+			<!-- <a id="prev" class="button rounded"><</a> -->
+			<!-- <a id="next" class="button rounded">></a> -->
+			<a id="prev">Prev</a>
+			<a id="next">Next</a>
+			<nav>
+				<a id="campaign">Campaign</a> >
+				<h1 id="name"></h1>
+			</nav>
 
 			<div id="preview">
 				<div id="width"></div>
 				<div id="height"></div>
 			</div>
 
-			<div id="actions">
-				<a id="prev" class="button rounded"><</a>
+			<!-- <div id="actions">
 				<button>Open in a new tab</button>
 				<button>Download</button>
-				<a id="next" class="button rounded">></a>
-			</div>
+			</div> -->
 
-			<div id="infos">
-				<span id="type"></span>
-				<span id="updated">
-					<calendar-date date="2022-11-26T09:12:00Z"></calendar-date>
-				</span>
+			<div id="sidebar">
+				<div id="infos">
+					<span id="type"></span>
+					<span id="updated">
+						<calendar-date date="2022-11-26T09:12:00Z"></calendar-date>
+					</span>
 
-				<span id="size"></span>
+					<span id="size"></span>
 
-				<span id="views">👁️ 148</span>
+					<span id="views">👁️ 148</span>
 
-				<span id="likes">♥️ 24</span>
-			</div>
+					<span id="likes">♥️ 24</span>
+				</div>
 
-			<div id="versions">
-				<h2>Versions</h2>
-				<ul class="no-bullet"></ul>
+				<section id="tags">
+					<h2>Tags</h2>
+					<ul></ul>
+				</section>
+
+				<section id="versions">
+					<h2>Versions</h2>
+					<ul class="no-bullet"></ul>
+				</section>
 			</div>
 
 			<!-- <span id="type">
