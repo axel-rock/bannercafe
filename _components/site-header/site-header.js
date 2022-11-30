@@ -13,6 +13,8 @@ export class SiteHeader extends HTMLElement {
 				</a>
 			</h1>
 			<!--search-bar></search-bar-->
+
+			<!--a href="/sign-up/">Pricing</a-->
 			<span style="flex-grow:1"></span>
 			<a href="/dashboard/" class="admin-only">Dashboard</a>
 			<profile-button class="admin-only"></profile-button>

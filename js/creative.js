@@ -18,7 +18,9 @@ import {
 import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js'
 import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 import Campaign from '/js/campaign.js'
+import getImagesFromVideo from '/js/utils/getImagesFromVideo.js'
 const Filer = window.Filer
+
 const fs = new Filer.FileSystem().promises
 const db = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
@@ -32,10 +34,10 @@ export default class Creative {
 		versionId,
 		creativeId,
 		name,
+		files,
 		type,
 		width,
 		height,
-		files,
 		campaign,
 		size,
 		fallback,
@@ -46,10 +48,10 @@ export default class Creative {
 		this.versionId = versionId
 		this.creativeId = creativeId
 		this.name = name
-		this.type = type
-		this.width = width || this.getDimensions()[0]
-		this.height = height || this.getDimensions()[1]
 		this.files = files
+		this.type = type
+		this.width = width
+		this.height = height
 		this.campaign = campaign
 		this.size = size || this.files.map((file) => file.size).reduce((a, b) => a + b, 0)
 		if (fallback) this.fallback = fallback
@@ -64,7 +66,7 @@ export default class Creative {
 	 * Get and set metadata asynchronous
 	 */
 	async getSyncMetadata() {
-		await Promise.all([this.getFallback()])
+		await Promise.all([this.getFallback(), this.getDimensions()])
 		// set(this.versionId, this)
 		return this
 	}
@@ -78,12 +80,14 @@ export default class Creative {
 	 * Get and set dimensions, parsed from file name
 	 */
 	getDimensions() {
-		return this.name.match(/\d+x\d+/)
+		const parsedDimensions = this.name.match(/\d+x\d+/)
 			? this.name
 					.match(/\d+x\d+/)[0]
 					.split('x')
 					.map((x) => parseInt(x))
 			: [0, 0]
+		this.width ??= parsedDimensions[0]
+		this.height ??= parsedDimensions[1]
 	}
 
 	/**
@@ -106,8 +110,6 @@ export default class Creative {
 		const versionRef = doc(
 			collection(db, Campaign.COLLECTION, campaign, Creative.COLLECTION, this.creativeId, Creative.VERSION_COLLECTION)
 		)
-
-		console.log([Campaign.COLLECTION, campaign, Creative.COLLECTION, this.creativeId].join('/'))
 
 		this.versionId = versionRef.id
 
@@ -133,11 +135,14 @@ export default class Creative {
 		// Update file paths
 		this.files = uploadSnapshots.map((snapshot) => snapshot.ref.fullPath)
 
+		console.log(this.fallback)
+
 		if (this.fallback && !this.fallback.includes('/')) {
 			const found = this.files.find((file) => file.endsWith(this.fallback))
-			console.log(this.files, this.fallback, found)
 			this.fallback = found
 		}
+
+		console.log(this.fallback)
 
 		// Add date field
 		this.timestamp = serverTimestamp()
@@ -150,18 +155,28 @@ export default class Creative {
 		return await Promise.all([setDoc(creativeRef, creative, { merge: true }), setDoc(versionRef, creative)])
 	}
 
-	async logView() {
-		logEvent(analytics, 'creative_viewed', {
-			id: this,
-			name: this.name,
-			campaign: this.campaign,
-			name_and_campaign: [this.name, this.campaign].join('-'),
-		})
-	}
-
 	async storeLocally(files = this.files) {
 		return Promise.all(
 			files.map(async (file) => {
+				console.log(typeof file === 'object', file)
+				if (typeof file === 'object') {
+					return new Promise(async (resolve, reject) => {
+						const reader = new FileReader()
+						try {
+							await fs.mkdir('/' + this.name)
+						} catch (e) {
+							reject(e)
+						}
+						reader.onload = (e) => {
+							resolve(fs.writeFile('/' + [this.name, file.name].join('/'), Filer.Buffer.from(reader.result)))
+						}
+						reader.readAsArrayBuffer(file)
+					}).catch((e) => {
+						return
+					})
+				}
+
+				return
 				// Don't redownload files if they exist locally
 				try {
 					const exist = (await fs.stat('/' + file)).isFile()
@@ -375,6 +390,29 @@ class PSDCreative extends Creative {
 class VideoCreative extends Creative {
 	async getDownloadURL() {
 		return getDownloadURL(ref(storage, this.files[0]))
+	}
+
+	async getDimensions() {
+		return new Promise((resolve, reject) => {
+			let video = document.createElement('video')
+			video.src = window.URL.createObjectURL(this.files[0])
+			video.addEventListener('loadeddata', () => {
+				this.width = video.videoWidth
+				this.height = video.videoHeight
+				resolve()
+				window.URL.revokeObjectURL(video.src)
+			})
+			video.load()
+			resolve(super.getDimensions())
+		})
+	}
+
+	async getFallback() {
+		const blobs = await getImagesFromVideo(this.files[0])
+
+		const ext = this.name.split('.').pop()
+		this.fallback = this.files[0].name.replace('.' + ext, `_${blobs.length - 1}.png`)
+		this.files.push(...blobs)
 	}
 }
 
