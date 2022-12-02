@@ -122,7 +122,9 @@ section {
 	width: -webkit-fill-available;
 }
 
-#versions {
+#versions,
+#comments {
+	font-size: 1.6rem;
 	width: 100%;
 	max-width: 80ch;
 }
@@ -150,8 +152,19 @@ section {
 	border-radius: 3em;
 }
 
+#versions ul li a relative-date {
+	font-weight: normal;
+	font-size: 0.8em;
+	color: var(--color-3);
+}
+
 #versions ul li a span {
 	flex-grow: 1;
+}
+
+#versions > ul > li .username {
+	flex-grow: 1;
+	font-weight: bold;
 }
 
 #tags ul {

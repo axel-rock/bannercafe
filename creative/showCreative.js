@@ -62,8 +62,8 @@ async function getVersions() {
 			version.campaign
 		}" class="${version.versionId === params.versionId ? 'current' : ''} button">
 				<img src="${version.user.photoURL}"/>
-				<span>${version.user.displayName}</span>
-				<calendar-date date="${version.timestamp.toDate()}"></calendar-date>
+				<span class="username">${version.user.displayName}</span>
+				<relative-date date="${version.timestamp.toDate()}"></relative-date>
 			</a>
 		`
 		ul.appendChild(li)

@@ -238,7 +238,7 @@ a.button {
 	color: var(--color-2);
 	font-weight: bold;
 	line-height: 1em;
-	font-size: 1.25em;
+	/* font-size: 1.25em; */
 }
 
 button,

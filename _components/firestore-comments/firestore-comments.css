@@ -1,5 +1,4 @@
 firestore-comments {
-	--gap: 1em;
 	display: flex;
 	flex-direction: column;
 	/* padding: var(--gap); */
@@ -32,7 +31,7 @@ firestore-comments > ul > li > .username {
 	font-weight: bold;
 }
 
-firestore-comments > ul > li > .date {
+firestore-comments > ul > li > relative-date {
 	color: var(--color-4);
 	font-size: 0.8em;
 }
@@ -61,7 +60,7 @@ firestore-comments > ul > li.no-profile {
 	padding-top: 0;
 }
 
-firestore-comments > ul > li.no-profile > :is(img, .username, .date) {
+firestore-comments > ul > li.no-profile > :is(img, .username, relative-date) {
 	display: none;
 }
 

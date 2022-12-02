@@ -77,7 +77,7 @@ class FirestoreComments extends HTMLElement {
 		element.innerHTML = `
 			<img src="${data.user.photoURL}"/>
 			<span class="username">${data.user.displayName}</span>
-			<span class="date">${this.dateFromNow(data.timestamp)}</span>
+			<relative-date date="${data.timestamp.toDate()}"></relative-date>
 			<div class="content"></div>
 		`
 		element.quill = new Quill(element.querySelector('.content'), {
@@ -86,21 +86,6 @@ class FirestoreComments extends HTMLElement {
 		element.quill.setContents(data.content)
 		if (ul.lastChild?.user == data.user.uid) element.classList.add('no-profile')
 		ul.appendChild(element)
-	}
-
-	dateFromNow(timestamp) {
-		const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
-		const units = {
-			year: 24 * 60 * 60 * 1000 * 365,
-			month: (24 * 60 * 60 * 1000 * 365) / 12,
-			day: 24 * 60 * 60 * 1000,
-			hour: 60 * 60 * 1000,
-			minute: 60 * 1000,
-			second: 1000,
-		}
-		const elapsed = timestamp.toDate() - new Date()
-		for (let u in units)
-			if (Math.abs(elapsed) > units[u] || u == 'second') return rtf.format(Math.round(elapsed / units[u]), u)
 	}
 
 	get ref() {
