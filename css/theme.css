@@ -231,6 +231,7 @@ ul.no-bullet > li {
 }
 
 button,
+input[type='submit'],
 a.button {
 	background: var(--background-color-1);
 	/* border: solid var(--line-width) var(--background-color-2); */
@@ -241,11 +242,13 @@ a.button {
 }
 
 button,
+input[type='submit'],
 a.button.rounded {
 	border-radius: 3em;
 }
 
 button:hover,
+input[type='submit'],
 a.button:hover {
 	background: var(--accent-color-6);
 	color: var(--accent-color-9);
@@ -256,6 +259,7 @@ a.accent {
 }
 
 a.button.accent,
+input[type='submit'].accent,
 button.accent {
 	background: var(--accent-color-5);
 	color: var(--accent-color-9);
@@ -266,6 +270,7 @@ a.accent:hover {
 }
 
 a.button.accent:hover,
+input[type='submit'].accent:hover,
 button.accent:hover {
 	background: var(--accent-color-6);
 	color: var(--accent-color-9);

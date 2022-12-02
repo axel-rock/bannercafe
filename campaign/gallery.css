@@ -1,3 +1,7 @@
+#gallery {
+	overflow: hidden;
+}
+
 /* Compact view */
 
 :has(#layout > [value='compact']:checked) #gallery {

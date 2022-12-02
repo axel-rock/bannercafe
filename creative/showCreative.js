@@ -12,6 +12,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
 const db = getFirestore(firebaseApp)
 import { get } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
+const MESSAGES_COLLECTION = 'messages'
 const params = new Proxy(new URLSearchParams(window.location.search), {
 	get: (searchParams, prop) => searchParams.get(prop),
 })
@@ -124,6 +125,13 @@ if (creative.height >= creative.width && creative.height > window.innerHeight * 
 	preview.classList.add('tall')
 }
 
+document.querySelector('firestore-comments').ref = [
+	Campaign.COLLECTION,
+	campaignId,
+	Creative.COLLECTION,
+	creative.creativeId,
+	MESSAGES_COLLECTION,
+].join('/')
 document.querySelector('#campaign').href = `/campaign/?id=${campaignId}`
 document.querySelector('#type').textContent = creative.type
 document.querySelector('#width').textContent = creative.width + 'px'
