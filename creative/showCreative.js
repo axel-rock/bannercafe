@@ -13,6 +13,7 @@ import {
 const db = getFirestore(firebaseApp)
 import { get } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 const MESSAGES_COLLECTION = 'messages'
+const QA_COLLECTION = 'qa'
 const params = new Proxy(new URLSearchParams(window.location.search), {
 	get: (searchParams, prop) => searchParams.get(prop),
 })
@@ -131,6 +132,14 @@ document.querySelector('firestore-comments').ref = [
 	Creative.COLLECTION,
 	creative.creativeId,
 	MESSAGES_COLLECTION,
+].join('/')
+
+document.querySelector('qa-panel').ref = [
+	Campaign.COLLECTION,
+	campaignId,
+	Creative.COLLECTION,
+	creative.creativeId,
+	QA_COLLECTION,
 ].join('/')
 document.querySelector('#campaign').href = `/campaign/?id=${campaignId}`
 document.querySelector('#type').textContent = creative.type

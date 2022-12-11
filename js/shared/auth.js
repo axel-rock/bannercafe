@@ -12,14 +12,9 @@ const auth = getAuth(firebaseApp)
 auth.onAuthStateChanged((user) => {
 	if (user) {
 		set('user', (({ uid, displayName, photoURL }) => ({ uid, displayName, photoURL }))(user))
-		if (user.uid === 'GEyvgboge7R4xbqeDYskbjf8wQM2')
-			document.querySelectorAll('.admin-only').forEach((element) => {
-				element.style.display = 'inline-flex'
-			})
+		if (user.uid === 'GEyvgboge7R4xbqeDYskbjf8wQM2') document.body.classList.add('admin')
 	} else {
 		del('user')
-		document.querySelectorAll('.admin-only').forEach((element) => {
-			element.style.display = 'none'
-		})
+		document.body.classList.remove('admin')
 	}
 })

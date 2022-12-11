@@ -38,7 +38,7 @@ export class CreativeOverview extends HTMLElement {
 		this.onUpdate()
 	}
 
-	onUpdate() {
+	async onUpdate() {
 		const src = this.getAttribute('src')
 		if (!src) return
 		this.creative.dimensions ??= src.match(/\d+x\d+/)[0]
@@ -76,6 +76,7 @@ export class CreativeOverview extends HTMLElement {
 				this.preview = document.createElement('video')
 				this.preview.controls = true
 				this.preview.preload = 'metadata'
+				this.preview.poster = await this.creative.getDownloadURL(1)
 				break
 			// case 'psd':
 			// 	this.preview = document.createElement('psd-preview')
@@ -115,7 +116,7 @@ export class CreativeOverview extends HTMLElement {
 
 	async becomesFullyVisible() {
 		if (this.creative.getDownloadURL) {
-			this.preview.src = await this.creative.getDownloadURL()
+			// this.preview.src = await this.creative.getDownloadURL()
 		} else if (this.preview) this.preview.src = this.creative.path
 	}
 

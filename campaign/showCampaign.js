@@ -43,9 +43,19 @@ async function getCreatives(campaignId) {
 
 function show(creatives) {
 	creatives.forEach((creative) => {
-		let overview = document.createElement('creative-overview')
-		overview.creative = creative
-		overview.src = creative.path
+		const template = document.querySelector('#creative-overview')
+		const overview = template.content.cloneNode(true)
+		overview.querySelector('.name').textContent = creative.name
+		overview.querySelector('.type').textContent = creative.type
+		overview.querySelector('.size').textContent = Creative.humanFileSize(creative.size)
+		overview.querySelector('relative-date').setAttribute('date', creative.timestamp.toDate())
+		overview.querySelector('li').creative = creative
+		const preview = creative.asHTML()
+		preview.classList.add('preview')
+		overview.querySelector('a').prepend(preview)
+		overview.querySelector(
+			'a'
+		).href = `/creative/?creativeId=${creative.creativeId}&versionId=${creative.versionId}&campaign=${creative.campaign}`
 		gallery.appendChild(overview)
 	})
 }

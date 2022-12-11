@@ -1,13 +1,12 @@
 main {
 	--size: 5em;
-	display: grid;
+	display: flex;
 	gap: var(--gap);
 	justify-content: center;
 	place-items: center;
 }
 
 main:has(#preview > .tall) {
-	grid-template-columns: min-content auto;
 	gap: calc(var(--gap) * 2);
 	justify-content: space-evenly;
 	align-items: center;
@@ -43,6 +42,10 @@ main > * {
 nav {
 	position: absolute;
 	top: var(--gap);
+}
+
+nav h1 {
+	font-family: 'SF Mono', sans-serif;
 }
 
 #prev:hover,
@@ -95,6 +98,7 @@ nav {
 #preview :is(img, video) {
 	max-width: 90vw;
 	max-height: 80vh;
+	object-fit: contain;
 }
 
 #actions,
@@ -114,6 +118,10 @@ nav {
 	background: var(--background-color-2);
 	border-radius: 100%;
 	font-size: 1.25em;
+}
+
+#size {
+	font-feature-settings: 'tnum';
 }
 
 section {

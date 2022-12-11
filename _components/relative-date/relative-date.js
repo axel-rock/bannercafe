@@ -1,5 +1,13 @@
 export class RelativeDate extends HTMLElement {
 	connectedCallback() {
+		if (this.getAttribute('date')) this.onUpdate()
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		this.onUpdate()
+	}
+
+	onUpdate() {
 		const date = new Date(this.getAttribute('date')),
 			today = new Date(),
 			spans = this.querySelectorAll('span'),
@@ -17,6 +25,18 @@ export class RelativeDate extends HTMLElement {
 		for (let u in units)
 			if (Math.abs(elapsed) > units[u] || u == 'second')
 				return (this.innerHTML = rtf.format(Math.round(elapsed / units[u]), u))
+	}
+
+	static get observedAttributes() {
+		return ['date']
+	}
+
+	get date() {
+		this.getAttribute('date')
+	}
+
+	set date(value) {
+		this.setAttribute('date', value)
 	}
 }
 

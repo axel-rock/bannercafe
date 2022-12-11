@@ -6,18 +6,22 @@
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafe</title>
-		<link rel="stylesheet" href="/css/style.css" />
-		<link rel="stylesheet" href="./creative.css" />
-		<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css" />
 		<script type="module" src="/_components/components-library.js"></script>
 		<script type="text/javascript" src="/js/libs/psd/psd.min.js"></script>
 		<script src="https://unpkg.com/filer"></script>
 		<script type="text/javascript" src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bowser@latest/bundled.js"></script>
 		<script type="text/javascript" src="/_components/html-banner/html-banner.js"></script>
+		<script type="module" src="/_components/qa-panel/qa-panel.js"></script>
 		<script type="module" src="/_components/firestore-comments/firestore-comments.js"></script>
 
 		<script type="module" src="/js/shared.js" defer></script>
 		<script type="module" src="showCreative.js" defer></script>
+
+		<link href="https://fonts.cdnfonts.com/css/sf-mono" rel="stylesheet" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="./creative.css" />
+		<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css" />
 	</head>
 	<body>
 		<site-header></site-header>
@@ -55,6 +59,11 @@
 
 					<span id="likes">♥️ 24</span>
 				</div>
+
+				<section id="qa">
+					<h2>QA Checklist</h2>
+					<qa-panel></qa-panel>
+				</section>
 
 				<section id="tags">
 					<h2>Tags</h2>

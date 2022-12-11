@@ -10,12 +10,14 @@
 		<script type="module" src="/_components/creative-overview/creative-overview.js"></script>
 		<script type="module" src="/_components/upload-dropzone/upload-dropzone.js"></script>
 		<script type="module" src="/js/shared.js"></script>
-		<script type="module" src="./gallery.js"></script>
+		<script type="module" src="./bin-packing-layout.js"></script>
 		<script type="module" src="./showCampaign.js" defer></script>
 		<script type="text/javascript" src="/js/libs/psd/psd.min.js"></script>
 		<script type="text/javascript" src="https://unpkg.com/filer"></script>
+
+		<link href="https://fonts.cdnfonts.com/css/sf-mono" rel="stylesheet" />
 		<link rel="stylesheet" href="/css/style.css" />
-		<link rel="stylesheet" href="./gallery.css" />
+		<link rel="stylesheet" href="./campaign.css" />
 	</head>
 	<body>
 		<site-header></site-header>
@@ -40,11 +42,23 @@
 					<label for="layout">Layout: </label>
 					<select id="layout" name="layout" class="save-preference">
 						<option value="list">List</option>
+						<!-- <option value="grid">Grid</option> -->
 						<option value="compact">Compact</option>
 					</select>
 				</form>
 			</div>
-			<section id="gallery" class="dot-pattern"></section>
+			<ul id="gallery">
+				<template id="creative-overview">
+					<li>
+						<a>
+							<span class="type"></span>
+							<span class="name"></span>
+							<span class="size"></span>
+							<relative-date></relative-date>
+						</a>
+					</li>
+				</template>
+			</ul>
 			<upload-dropzone class="admin-only"></upload-dropzone>
 		</main>
 		<site-loader></site-loader>

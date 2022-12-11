@@ -10,13 +10,14 @@ const mutationObserver = new MutationObserver(update),
 mutationObserver.observe(gallery, { attributes: false, childList: true, subtree: false })
 
 function update() {
-	const creatives = [...document.querySelectorAll('creative-overview')]
+	const creatives = [...document.querySelectorAll('#gallery > li')]
 
 	const blocks = creatives.map((element) => {
-		const max = gallery.getBoundingClientRect().width - gridCells
-		const scale = Math.min(1, max / element.width)
-		const width = ~~(element.width * scale)
-		const height = ~~(element.height * scale)
+		const maxWidth = gallery.getBoundingClientRect().width - gridCells
+		const maxHeight = window.innerHeight - gridCells
+		const scale = Math.min(1, maxWidth / element.creative.width, maxHeight / element.creative.height)
+		const width = ~~(element.creative.width * scale)
+		const height = ~~(element.creative.height * scale)
 		element.style.setProperty('--compact-width', width)
 		element.style.setProperty('--compact-height', height)
 		return {
@@ -46,7 +47,7 @@ function update() {
 		block.element.style.setProperty('--compact-left', block.fit.x)
 		block.element.style.setProperty('--compact-top', block.fit.y)
 		setTimeout(() => {
-			block.element.startObserver()
+			// block.element.startObserver()
 		}, 10)
 	})
 

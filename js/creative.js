@@ -4,30 +4,18 @@ import {
 	collection,
 	doc,
 	setDoc,
-	updateDoc,
 	serverTimestamp,
-	runTransaction,
 } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
-import {
-	getStorage,
-	ref,
-	uploadBytes,
-	getBytes,
-	getDownloadURL,
-} from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getBytes } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-storage.js'
 import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js'
 import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 import Campaign from '/js/campaign.js'
-import getImagesFromVideo from '/js/utils/getImagesFromVideo.js'
 const Filer = window.Filer
 
 const fs = new Filer.FileSystem().promises
 const db = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
 const analytics = getAnalytics()
-
-// Could not import PSD directly, this is a workaround for now
-import { PSDPreview } from '/_components/psd-preview/psd-preview.js'
 
 export default class Creative {
 	constructor({
@@ -64,13 +52,11 @@ export default class Creative {
 	 * Get and set metadata asynchronous
 	 */
 	async getSyncMetadata() {
-		await Promise.all([this.getFallback(), this.getDimensions()])
-		// set(this.versionId, this)
-		return this
+		return Promise.all([this.generateFallback(), this.getDimensions()])
 	}
 
-	async getFallback() {
-		console.warn('getFallback must be defined for each type')
+	async generateFallback() {
+		console.warn('generateFallback must be defined for each type')
 		this.fallback ??= `https://place-hold.it/${this.width}x${this.height}`
 	}
 
@@ -111,8 +97,6 @@ export default class Creative {
 
 		this.versionId = versionRef.id
 
-		// return false
-
 		const uploadSnapshots = await Promise.all(
 			this.files.map((file) => {
 				const storageRef = ref(storage, ['uploads', Campaign.COLLECTION, campaign, this.versionId, file.name].join('/'))
@@ -125,6 +109,7 @@ export default class Creative {
 
 		if (this.fallback && !this.fallback.includes('/')) {
 			const found = this.files.find((file) => file.endsWith(this.fallback))
+			console.log(found)
 			this.fallback = found
 		}
 
@@ -204,16 +189,6 @@ export default class Creative {
 		return 'versions'
 	}
 
-	static get SUPPORTED_EXTENSIONS() {
-		return {
-			html: HTMLCreative,
-			psd: PSDCreative,
-			mp4: VideoCreative,
-			jpg: ImgCreative,
-			png: ImgCreative,
-		}
-	}
-
 	/**
 	 * Get all Creatives from a list of FileEntries (typically, upon drag and drop)
 	 * @param {[FileSystemFileEntry]} entries - an array of FileSystemFileEntry, got from webkitGetAsEntry() from each item in event.dataTransfer.items
@@ -266,8 +241,16 @@ export default class Creative {
 	}
 
 	static fromObject(object) {
-		const classForFileType = Creative.SUPPORTED_EXTENSIONS[object.type] || Creative
+		const classForFileType = Creative.extensions[object.type] || Creative
 		return new classForFileType(object)
+	}
+
+	asHTML() {
+		const element = document.createElement(this.HTMLTag)
+		element.src = this.path
+		element.width = this.width
+		element.height = this.height
+		return element
 	}
 
 	/**
@@ -280,6 +263,8 @@ export default class Creative {
 			})
 		})
 	}
+
+	static extensions = {}
 
 	/**
 	 * Returns a hash code from a string
@@ -331,74 +316,4 @@ export default class Creative {
 	}
 }
 
-class HTMLCreative extends Creative {
-	async getFallback() {
-		const fallbackInBanner = this.files.find((file) => file.name.split('.')[0] == this.name)
-		if (fallbackInBanner) {
-			this.fallback = fallbackInBanner.name
-		}
-	}
-}
-
-class PSDCreative extends Creative {
-	async getFallback() {
-		const buffer = await new Promise((resolve) => {
-			const reader = new FileReader()
-			reader.onload = (e) => {
-				resolve(Filer.Buffer.from(reader.result))
-			}
-			reader.readAsArrayBuffer(this.files[0])
-		})
-		await fs.writeFile('/' + this.files[0].name, buffer)
-
-		const psd = await PSDPreview.readPSD('/fs/' + this.files[0].name)
-
-		const fallback = this.files[0].name.replace('.psd', '.png')
-
-		// const file = new Blob([image.file.data], { type: 'image/png' })
-		const file = await fetch(psd.image.toBase64()).then((res) => res.blob())
-		file.name = fallback
-
-		this.files.push(file)
-		// Set dimensions from PSD if they didn't exist
-		if (!this.width) this.width = psd.header.cols
-		if (!this.height) this.height = psd.header.rows
-
-		this.fallback = fallback
-	}
-}
-
-class VideoCreative extends Creative {
-	async getDownloadURL() {
-		return getDownloadURL(ref(storage, this.files[0]))
-	}
-
-	async getDimensions() {
-		return new Promise((resolve, reject) => {
-			let video = document.createElement('video')
-			video.src = window.URL.createObjectURL(this.files[0])
-			video.addEventListener('loadeddata', () => {
-				this.width = video.videoWidth
-				this.height = video.videoHeight
-				resolve()
-				window.URL.revokeObjectURL(video.src)
-			})
-			resolve(super.getDimensions())
-			video.load()
-		})
-	}
-
-	async getFallback() {
-		const blobs = await getImagesFromVideo(this.files[0])
-
-		const ext = this.name.split('.').pop()
-		this.fallback = this.files[0].name.replace('.' + ext, `_${blobs.length - 1}.png`)
-		this.files.push(...blobs)
-	}
-}
-
-class ImgCreative extends Creative {
-	async getFallback() {
-		this.fallback = this.files[0].name
-	}
-}
+window.customElements.define('creative-element', Creative)

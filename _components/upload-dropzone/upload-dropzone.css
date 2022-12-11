@@ -1,13 +1,17 @@
 upload-dropzone {
-	display: grid;
-	place-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	min-width: 5em;
 	min-height: 5em;
 	border-radius: 1em;
 	padding: var(--gap);
 	gap: var(--gap);
 	border: var(--line-width) dashed var(--color-2);
-	transition: box-shadow 250ms ease-in-out;
+	/* transition-property: box-shadow, width, height;
+	transition-duration: 250ms;
+	transition-timing-function: ease-in-out; */
 }
 
 upload-dropzone:not([campaign]) {
@@ -15,6 +19,22 @@ upload-dropzone:not([campaign]) {
 }
 
 upload-dropzone.active {
-	backdrop-filter: blur(10px);
 	box-shadow: 0 0 2em var(--color-5);
+	position: fixed;
+	top: calc(var(--gap) * 2);
+	left: calc(var(--gap) * 2);
+	width: calc(100vw - 4 * var(--gap));
+	height: calc(100vh - 4 * var(--gap));
+}
+
+upload-dropzone.active:before {
+	content: '';
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	backdrop-filter: blur(10px);
+	background-color: var(--background-color-transparent-0);
+	z-index: -1;
 }

@@ -5,6 +5,8 @@
 
 	/* Colors */
 
+	--background-color-transparent-0: hsla(260, 0%, 0%, 0.9);
+
 	--background-color-0: hsla(260, 0%, 0%, 1);
 	--background-color-1: hsla(260, 0%, 10%, 1);
 	--background-color-2: hsla(260, 0%, 20%, 1);
@@ -41,6 +43,8 @@
 
 @media (prefers-color-scheme: light) {
 	:root:not(:has(#theme-selector > [value='dark']:checked)) {
+		--background-color-transparent-0: hsla(260, 0%, 100%, 0.9);
+
 		--background-color-0: hsla(260, 0%, 100%, 1);
 		--background-color-1: hsla(260, 0%, 95%, 1);
 		--background-color-2: hsla(260, 0%, 90%, 1);
@@ -77,6 +81,8 @@
 }
 
 :root:has(#theme-selector > [value='light']:checked) {
+	--background-color-transparent-0: hsla(260, 0%, 100%, 0.9);
+
 	--background-color-0: hsla(260, 0%, 100%, 1);
 	--background-color-1: hsla(260, 0%, 95%, 1);
 	--background-color-2: hsla(260, 0%, 90%, 1);

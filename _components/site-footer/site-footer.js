@@ -36,11 +36,6 @@ export class SiteFooter extends HTMLElement {
 		</footer>
 		`
 
-		const themeSelector = this.querySelector('#theme-selector')
-		themeSelector.onchange = (e) => {
-			console.log(themeSelector.value)
-		}
-
 		this.querySelectorAll('a').forEach((anchor) => {
 			if (anchor.pathname.split('/')[1] === window.location.pathname.split('/')[1]) anchor.classList.add('active')
 		})

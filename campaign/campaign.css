@@ -1,0 +1,101 @@
+#gallery {
+	display: grid;
+	grid-template-columns: min-content 1fr max-content max-content;
+	gap: var(--gap);
+	list-style-type: none;
+	padding: 0;
+}
+
+.preview {
+	grid-column-start: 1;
+	grid-column-end: -1;
+	max-width: 90vw;
+	max-height: 90vh;
+	justify-self: center;
+	border-radius: 1rem;
+	overflow: hidden;
+	position: relative;
+	box-shadow: 0px 0px 2rem 0.2rem var(--background-color-1);
+	transition: 200ms box-shadow ease-out;
+	pointer-events: none;
+}
+
+.preview:hover {
+	box-shadow: 0px 0px 2rem 0.5rem var(--background-color-3);
+}
+
+/* Compact view */
+
+:has(#layout > [value='compact']:checked) #gallery {
+	position: relative;
+	height: calc(var(--compact-height) * 1px);
+}
+
+:has(#layout > [value='compact']:checked) li {
+	position: absolute;
+	left: calc(var(--compact-left) * 1px);
+	top: calc(var(--compact-top) * 1px);
+	width: calc(var(--compact-width) * 1px);
+	height: calc(var(--compact-height) * 1px);
+}
+
+:has(#layout > [value='compact']:checked) #gallery a {
+	display: flex;
+}
+
+:has(#layout > [value='compact']:checked) #gallery a > :not(.preview) {
+	display: none;
+}
+
+/* :has(#layout > [value='compact']:checked) #gallery creative-overview {
+	transition: 0.5s;
+}
+
+:has(#layout > [value='compact']:checked) #gallery:has(creative-overview:hover) creative-overview:not(:hover) {
+	filter: grayscale(1);
+} */
+
+/* List view */
+
+:has(#layout > [value='list']:checked) .preview {
+	display: none;
+}
+
+:has(#layout > [value='list']:checked) #gallery > li,
+:has(#layout > [value='list']:checked) #gallery > li > a {
+	display: contents;
+}
+
+/* :has(#layout > [value='list']:checked) #gallery {
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	gap: 1em;
+	grid-auto-rows: 2em;
+}
+
+:has(#layout > [value='list']:checked) #gallery > li {
+	display: contents;
+}
+
+:has(#layout > [value='list']:checked) #gallery > li html-banner {
+	display: none;
+} */
+
+/* site-header + div {
+	display: flex;
+	gap: var(--gap);
+	align-items: center;
+} */
+
+.size {
+	font-feature-settings: 'tnum';
+}
+
+site-header + div > .spacer {
+	flex-grow: 1;
+}
+
+#browse,
+#refresh {
+	display: none;
+}

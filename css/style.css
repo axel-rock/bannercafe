@@ -2,6 +2,6 @@
 @import 'form.css';
 @import 'theme.css';
 
-.admin-only {
-	display: none;
+body:not(.admin) .admin-only {
+	/* display: none; */
 }

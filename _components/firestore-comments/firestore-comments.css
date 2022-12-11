@@ -1,20 +1,20 @@
-firestore-comments {
+:is(.comments, firestore-comments) {
 	display: flex;
 	flex-direction: column;
 	/* padding: var(--gap); */
 	background: var(--background-color-1);
 }
 
-firestore-comments > form > p {
+:is(.comments, firestore-comments) > form > p {
 	padding: var(--gap);
 }
 
-firestore-comments > ul:empty::before {
+/* firestore-comments > ul:empty::before {
 	content: 'No comments yet';
 	color: var(--color-3);
-}
+} */
 
-firestore-comments > ul > li {
+:is(.comment, firestore-comments > ul > li) {
 	padding: var(--gap);
 	display: flex;
 	flex-wrap: wrap;
@@ -22,45 +22,45 @@ firestore-comments > ul > li {
 	gap: 0 var(--gap);
 }
 
-firestore-comments > ul > li:hover {
+:is(.comment, firestore-comments > ul > li):hover {
 	background: var(--background-color-2);
 }
 
-firestore-comments > ul > li > .username {
+:is(.comment, firestore-comments > ul > li) > .username {
 	flex-grow: 1;
 	font-weight: bold;
 }
 
-firestore-comments > ul > li > relative-date {
+:is(.comment, firestore-comments > ul > li) > relative-date {
 	color: var(--color-4);
 	font-size: 0.8em;
 }
 
-firestore-comments > ul > li > img {
+:is(.comment, firestore-comments > ul > li) > img {
 	width: 3em;
 	border-radius: 3em;
 	aspect-ratio: 1;
 }
 
-firestore-comments > ul > li > .content {
+:is(.comment, firestore-comments > ul > li) > .content {
 	font-size: 1em;
 	flex-basis: 100%;
-	margin-left: 3em;
+	margin-left: 3.5em;
 }
 
-firestore-comments > ul > li > .content a {
+:is(.comment, firestore-comments > ul > li) > .content a {
 	text-decoration: underline;
 }
 
-firestore-comments > ul > li:has(+ .no-profile) {
+:is(.comment, firestore-comments > ul > li):has(+ .no-profile) {
 	padding-bottom: 0;
 }
 
-firestore-comments > ul > li.no-profile {
+:is(.comment, firestore-comments > ul > li).no-profile {
 	padding-top: 0;
 }
 
-firestore-comments > ul > li.no-profile > :is(img, .username, relative-date) {
+:is(.comment, firestore-comments > ul > li).no-profile > :is(img, .username, relative-date) {
 	display: none;
 }
 
@@ -73,9 +73,9 @@ firestore-comments > ul > li.no-profile > :is(img, .username, relative-date) {
 	border: 0;
 }
 
-.ql-toolbar.ql-snow {
+/* .ql-toolbar.ql-snow {
 	border-top: solid var(--line-width) var(--color-2);
-}
+} */
 
 .ql-snow .ql-stroke,
 .ql-snow .ql-picker.ql-header .ql-picker-label::before,

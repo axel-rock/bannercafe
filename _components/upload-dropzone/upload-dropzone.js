@@ -8,9 +8,9 @@ export class UploadDropzone extends HTMLElement {
 		return ['campaign']
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		this.onUpdate()
-	}
+	// attributeChangedCallback(name, oldValue, newValue) {
+	// 	this.onUpdate()
+	// }
 
 	async connectedCallback() {
 		if (!template) {
@@ -22,22 +22,19 @@ export class UploadDropzone extends HTMLElement {
 		this.addEventListeners()
 	}
 
-	onUpdate() {}
+	// onUpdate() {}
 
 	async onDrop(event) {
 		event.preventDefault()
 		SiteLoader.show('Collecting files')
 		this.hideDropzone()
 
-		let creatives = await Creative.getCreativesFromEntries(
-			[...event.dataTransfer.items].map((item) => item.webkitGetAsEntry())
-		)
-
-		console.log(creatives)
-
-		SiteLoader.show('Generate metadata')
-
 		try {
+			let creatives = await Creative.getCreativesFromEntries(
+				[...event.dataTransfer.items].map((item) => item.webkitGetAsEntry())
+			)
+
+			SiteLoader.show('Generate metadata')
 			await Promise.all(
 				creatives.map(async (creative) => {
 					await creative.getSyncMetadata()
@@ -46,11 +43,16 @@ export class UploadDropzone extends HTMLElement {
 			)
 		} catch (e) {
 			console.error(e)
+			SiteLoader.hide()
 		}
 
 		setTimeout(() => {
 			SiteLoader.hide()
 		}, 1000)
+	}
+
+	showDropzone() {
+		this.classList.add('active')
 	}
 
 	hideDropzone() {
@@ -69,7 +71,8 @@ export class UploadDropzone extends HTMLElement {
 		let lastTarget = null
 		window.addEventListener('dragenter', (e) => {
 			lastTarget = e.target
-			this.classList.add('active')
+			console.log(e.dataTransfer, e.dataTransfer.types, e.dataTransfer.items)
+			if (e.dataTransfer.types.includes('Files')) this.showDropzone()
 			// this.style.opacity = 1
 		})
 		window.addEventListener('dragleave', (e) => {

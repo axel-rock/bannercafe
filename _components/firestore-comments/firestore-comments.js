@@ -52,7 +52,6 @@ class FirestoreComments extends HTMLElement {
 
 	async saveMessage(delta) {
 		const ref = doc(collection(db, this.getAttribute('ref')))
-		console.log(delta)
 		return setDoc(ref, {
 			id: ref.id,
 			content: { ...delta },
