@@ -66,6 +66,7 @@ qa-panel #details {
 	display: flex;
 	flex-direction: column;
 	width: fit-content;
+	gap: 0;
 }
 
 qa-panel .comment {

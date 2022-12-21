@@ -7,20 +7,34 @@
 		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 		<title>Bannercafé</title>
 		<script type="module" src="/_components/components-library.js"></script>
-		<script type="module" src="/_components/creative-overview/creative-overview.js"></script>
 		<script type="module" src="/js/shared.js"></script>
-		<script type="module" src="./dashboard.js"></script>
-		<!-- <script type="module" src="./showLocalContent.js"></script> -->
+		<script type="module" src="./edit-campaign.js" defer></script>
 		<script type="text/javascript" src="https://unpkg.com/filer"></script>
+		<script type="text/javascript" src="/js/libs/psd/psd.min.js"></script>
 		<link rel="stylesheet" href="/css/style.css" />
 	</head>
 	<body>
 		<site-header></site-header>
 		<main>
-			<h1>Dashboard</h1>
-			<h2>Campaigns</h2>
-			<ul id="campaigns" class="no-bullet"></ul>
-			<a href="/campaign/edit/">Create a new campaign</a>
+			<h1>Create a new campaign</h1>
+			<form>
+				<fieldset>
+					<label for="name">Campaign name</label>
+					<input id="name" name="name" type="text" autocomplete="off" value="Campaign 1" />
+				</fieldset>
+
+				<fieldset>
+					<label for="client">Client</label>
+					<input id="client" name="client" type="text" autocomplete="organization" value="Apple" />
+				</fieldset>
+
+				<fieldset>
+					<label for="isPublic">Is it visible to anyone?</label>
+					<input id="isPublic" isPublic="name" type="checkbox" />
+				</fieldset>
+
+				<input type="submit" />
+			</form>
 		</main>
 		<site-loader></site-loader>
 		<site-footer></site-footer>

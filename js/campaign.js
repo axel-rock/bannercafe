@@ -1,10 +1,20 @@
 import { firebaseApp } from '/js/firebase.js'
-import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
+import {
+	getFirestore,
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+} from 'https://www.gstatic.com/firebasejs/9.13.0/firebase-firestore.js'
 const db = getFirestore(firebaseApp)
+import { get, set } from 'https://unpkg.com/idb-keyval@5.0.2/dist/esm/index.js'
 
 export default class Campaign {
-	constructor({ name, id, isPublic = false } = {}) {
+	constructor({ id, name, client, owner, isPublic = false } = {}) {
+		this.id = id
 		this.name = name
+		this.client = client
+		this.owner = owner
 		// this.id = name
 		this.isPublic = isPublic
 	}
@@ -26,6 +36,18 @@ export default class Campaign {
 			}
 		} catch (e) {
 			console.error(e)
+		}
+	}
+
+	async save() {
+		this.owner ??= await get('user')
+		if (!this.id) {
+			console.log(Campaign.COLLECTION)
+			const ref = doc(collection(db, Campaign.COLLECTION))
+			this.id = ref.id
+			const { ...campaign } = this
+			await setDoc(ref, campaign)
+			return this
 		}
 	}
 }

@@ -120,13 +120,13 @@
 html {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
 		'Droid Sans', 'Helvetica Neue', sans-serif;
-	font-size: 12px;
+	font-size: 62.5%;
 	background: var(--background-color-0);
 	color: var(--color-0);
 }
 
 body {
-	font-size: 1.33rem;
+	font-size: 1.5rem;
 	/* font-size: clamp(1.6rem, 1vw, 3rem); */
 	/* min-height: 100vh; */
 	display: flex;
@@ -155,10 +155,6 @@ main {
 	flex-direction: column;
 	flex-wrap: wrap;
 	gap: var(--gap);
-}
-
-header h1 {
-	line-height: 1em;
 }
 
 header h1 svg {

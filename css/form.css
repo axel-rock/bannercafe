@@ -78,6 +78,8 @@ input[type='text'],
 input[type='time'],
 input[type='url'],
 input[type='week'] {
+	background-color: var(--background-color-1);
+	padding: calc(var(--gap) * 0.5);
 }
 
 /* Button Controls
@@ -160,4 +162,19 @@ a.button {
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;
+}
+
+/* Fieldset
+-----------------------------------------------*/
+
+fieldset {
+	border: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--gap);
+}
+
+form {
+	display: grid;
+	gap: var(--gap);
 }

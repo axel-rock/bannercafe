@@ -88,11 +88,11 @@ export class QAPanel extends HTMLElement {
 			'All assets are loaded',
 			'Clicktag is working',
 			'Creative is under file size limits',
-			// 'Creative scales correctly',
-			// 'Images are not blurry',
-			// 'Text is readable',
-			// 'Interactions (:hover) work as expected',
-			// 'Creative has contrasting borders',
+			'Creative scales correctly',
+			'Images are not blurry',
+			'Text is readable',
+			'Interactions (:hover) work as expected',
+			'Creative has contrasting borders',
 		]
 
 		const browser = bowser.getParser(window.navigator.userAgent).parsedResult
